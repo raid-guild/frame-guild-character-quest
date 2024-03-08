@@ -10,6 +10,9 @@ import { handle } from "frog/vercel";
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
+  initialState: {
+    drinkCount: 0,
+  },
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 });
@@ -52,8 +55,8 @@ app.frame("/", (c) => {
       <Button action="/2" value="Tavern Keeper">
         Bartender
       </Button>,
-      <Button action="/3" value="Bard">
-        Bard
+      <Button action="/3" value="Archer">
+        Archer
       </Button>,
       <Button action="/4" value="Cleric">
         Cleric
@@ -101,14 +104,14 @@ app.frame("/2", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/6" value="0">
-        Buy an ale
+      <Button action="/6" value="Drink">
+        Drink
       </Button>,
-      <Button action="/4" value="Cleric">
-        Talk to cleric
+      <Button action="/4" value="Adventure">
+        Adventure
       </Button>,
-      <Button action="/" value="Bar">
-        Return to bar
+      <Button action="/" value="Mint">
+        Join Me (mint)
       </Button>,
     ],
   });
@@ -144,19 +147,22 @@ app.frame("/3", (c) => {
             display: "flex",
           }}
         >
-          A Bard plays his lute and sings of Raids of yore.
+          An Archer is perched on a stool. You admire their sleek bow and
+          arrows.
         </div>
       </div>
     ),
     intents: [
-      <Button value="Raids">Raids</Button>,
       <Button action="/5" value="Wizard">
-        Wizard
+        See Wizard
       </Button>,
-      <Button value="Follow">Follow</Button>,
+      <Button.Link href="https://warpcast.com/~/channel/raidguild">
+        Follow
+      </Button.Link>,
       <Button action="/" value="Bar">
-        Return to bar
+        Return
       </Button>,
+      <Button>Join Me (mint)</Button>,
     ],
   });
 });
@@ -196,13 +202,11 @@ app.frame("/4", (c) => {
       </div>
     ),
     intents: [
-      <Button value="Join">Join</Button>,
+      <Button.Link href="https://www.raidguild.org/join/1">Raid</Button.Link>,
       <Button action="/7" value="Moloch">
         Moloch
       </Button>,
-      <Button action="/" value="Bar">
-        Return to bar
-      </Button>,
+      <Button>Join Me (mint)</Button>,
     ],
   });
 });
@@ -246,20 +250,22 @@ app.frame("/5", (c) => {
       <Button action="/9" value="Learn">
         Learn more
       </Button>,
-      <Button action="/3" value="Bard">
-        Bard
+      <Button action="/3" value="Archer">
+        Archer
       </Button>,
       <Button action="/" value="Bar">
-        Return to bar
+        Return
       </Button>,
     ],
   });
 });
 
 app.frame("/6", (c) => {
-  const { buttonValue } = c;
+  const { buttonValue, deriveState } = c;
 
-  const drinks = Number(buttonValue);
+  const state = deriveState((previousState) => {
+    if (buttonValue === "Drink") previousState.drinkCount++;
+  });
 
   return c.res({
     image: (
@@ -291,19 +297,16 @@ app.frame("/6", (c) => {
           }}
         >
           The Tavern Keeper gives you a drink, you enjoy it and feel a little
-          tipsy (you've had {drinks} drinks).
+          tipsy (you've had {state.drinkCount} drinks).
         </div>
       </div>
     ),
     intents: [
-      <Button
-        action={drinks === 5 ? "/8" : "/6"}
-        value={(drinks + 1).toString()}
-      >
+      <Button action={state.drinkCount === 5 ? "/8" : "/6"} value="Drink">
         Drink more
       </Button>,
       <Button action="/" value="Bar">
-        Return to bar
+        Return
       </Button>,
     ],
   });
@@ -344,7 +347,14 @@ app.frame("/7", (c) => {
         </div>
       </div>
     ),
-    intents: [<Button value="Battle">Battle!</Button>],
+    intents: [
+      <Button.Link href="https://slatestarcodex.com/2014/07/30/meditations-on-moloch/">
+        Battle!
+      </Button.Link>,
+      <Button action="/" value="Bar">
+        Return
+      </Button>,
+    ],
   });
 });
 
@@ -382,7 +392,9 @@ app.frame("/8", (c) => {
         </div>
       </div>
     ),
-    intents: [<Button value="Brood">Brood</Button>],
+    intents: [
+      <Button.Link href="https://brood.raidguild.org/">Brood</Button.Link>,
+    ],
   });
 });
 
@@ -422,15 +434,16 @@ app.frame("/9", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/6" value="Battle">
+      <Button.Link href="https://discord.com/invite/rGFpfQf">
         Battle!
-      </Button>,
+      </Button.Link>,
       <Button action="/" value="Tavern">
-        "Wow, that's cool (walk away)"
+        Tavern
       </Button>,
       <Button action="/4" value="Adventure">
         Adventure
       </Button>,
+      <Button>Join Me (mint)</Button>,
     ],
   });
 });
