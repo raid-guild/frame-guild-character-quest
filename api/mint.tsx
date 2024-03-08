@@ -60,6 +60,7 @@ app.frame("/mint", (c) => {
   // todo: get address from hub
 
   const { previousState } = c;
+  // @ts-expect-error
   const account = privateKeyToAccount("poopin");
 
   const client = createWalletClient({
@@ -74,20 +75,20 @@ app.frame("/mint", (c) => {
     functionName: "safeMint",
     account,
     chain: sepolia,
-    // args: [
-    //   "0x83aB8e31df35AA3281d630529C6F4bf5AC7f7aBF",
-    //   previousState.name,
-    //   "i am description!",
-    //   previousState.class,
-    //   CLASSES_IMG_URI[previousState.class],
-    // ],
     args: [
       "0x83aB8e31df35AA3281d630529C6F4bf5AC7f7aBF",
-      "Nikola Jokic",
+      previousState.name,
       "i am description!",
-      "Wizard",
-      "ipfs://bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy",
+      previousState.class,
+      CLASSES_IMG_URI[previousState.class],
     ],
+    // args: [
+    //   "0x83aB8e31df35AA3281d630529C6F4bf5AC7f7aBF",
+    //   "Nikola Jokic",
+    //   "i am description!",
+    //   "Wizard",
+    //   "ipfs://bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy",
+    // ],
   });
 
   return c.res({
