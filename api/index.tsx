@@ -1,6 +1,8 @@
 import { Button, Frog } from "frog";
 // import { neynar } from 'frog/hubs'
+// import { neynar } from 'frog/hubs'
 import { handle } from "frog/vercel";
+import { app as mintApp } from "./mint.js";
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -13,6 +15,8 @@ export const app = new Frog({
   // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
 });
+
+app.route("/finish", mintApp);
 
 app.frame("/", (c) => {
   return c.res({
