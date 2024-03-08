@@ -2,7 +2,7 @@ import { createWalletClient, http } from "viem";
 import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 import { Button, Frog } from "frog";
-// import { neynar } from 'frog/hubs'
+import { neynar } from "frog/hubs";
 import { handle } from "frog/vercel";
 import nftAbi from "../lib/nft.json";
 import { CLASSES_IMG_URI, NFT_CONTRACT_ADDRESS } from "../lib/constants.js";
@@ -25,7 +25,7 @@ export const app = new Frog<{ State: State }>({
   },
   secret: process.env.RELAYER_PK_KEY,
   // Supply a Hub to enable frame verification.
-  // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
+  hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
 app.frame("/", (c) => {
@@ -94,7 +94,7 @@ app.frame("/mint", (c) => {
   return c.res({
     image: (
       <div style={{ color: "white", display: "flex", fontSize: 60 }}>
-        minting...
+        minting... check you wallet later, raider.
       </div>
     ),
     intents: [<Button value="share">Share</Button>],
