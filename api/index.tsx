@@ -1,8 +1,17 @@
 import { Button, Frog } from "frog";
-// import { neynar } from 'frog/hubs'
+import "dotenv/config";
 // import { neynar } from 'frog/hubs'
 import { handle } from "frog/vercel";
-import { app as mintApp } from "./mint.js";
+import { createPublicClient, createWalletClient, http } from "viem";
+import { sepolia } from "viem/chains";
+import { privateKeyToAccount } from "viem/accounts";
+import nftAbi from "../lib/nft.json";
+import {
+  CHARACTER_NAMES,
+  CLASS_DESCRIPTIONS,
+  CLASSES_IMG_URI,
+  NFT_CONTRACT_ADDRESS,
+} from "../lib/constants.js";
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -13,13 +22,13 @@ export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
   initialState: {
+    class: "",
     drinkCount: 0,
+    name: "",
   },
   // Supply a Hub to enable frame verification.
-  // hub: neynar({ apiKey: 'NEYNAR_FROG_FM' })
+  // hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
-
-app.route("/finish", mintApp);
 
 app.frame("/", (c) => {
   return c.res({
@@ -114,7 +123,7 @@ app.frame("/2", (c) => {
       <Button action="/4" value="Adventure">
         Adventure
       </Button>,
-      <Button action="/" value="Mint">
+      <Button action="/finish" value="Tavern Keeper">
         Join Me (mint)
       </Button>,
     ],
@@ -166,7 +175,9 @@ app.frame("/3", (c) => {
       <Button action="/" value="Bar">
         Return
       </Button>,
-      <Button>Join Me (mint)</Button>,
+      <Button action="/finish" value="Archer">
+        Join Me (mint)
+      </Button>,
     ],
   });
 });
@@ -210,7 +221,9 @@ app.frame("/4", (c) => {
       <Button action="/7" value="Moloch">
         Moloch
       </Button>,
-      <Button>Join Me (mint)</Button>,
+      <Button action="/finish" value="Cleric">
+        Join Me (mint)
+      </Button>,
     ],
   });
 });
@@ -251,15 +264,9 @@ app.frame("/5", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/9" value="Learn">
-        Learn more
-      </Button>,
-      <Button action="/3" value="Archer">
-        Archer
-      </Button>,
-      <Button action="/" value="Bar">
-        Return
-      </Button>,
+      <Button action="/9">Learn more</Button>,
+      <Button action="/3">Archer</Button>,
+      <Button action="/">Return</Button>,
     ],
   });
 });
@@ -309,9 +316,7 @@ app.frame("/6", (c) => {
       <Button action={state.drinkCount === 5 ? "/8" : "/6"} value="Drink">
         Drink more
       </Button>,
-      <Button action="/" value="Bar">
-        Return
-      </Button>,
+      <Button action="/">Return</Button>,
     ],
   });
 });
@@ -355,9 +360,7 @@ app.frame("/7", (c) => {
       <Button.Link href="https://slatestarcodex.com/2014/07/30/meditations-on-moloch/">
         Battle!
       </Button.Link>,
-      <Button action="/" value="Bar">
-        Return
-      </Button>,
+      <Button action="/">Return</Button>,
     ],
   });
 });
@@ -447,7 +450,144 @@ app.frame("/9", (c) => {
       <Button action="/4" value="Adventure">
         Adventure
       </Button>,
-      <Button>Join Me (mint)</Button>,
+      <Button action="/finish" value="Wizard">
+        Join Me (mint)
+      </Button>,
+    ],
+  });
+});
+
+app.frame("/finish", (c) => {
+  const { deriveState, buttonValue } = c;
+
+  const state = deriveState((previousState) => {
+    let _class = previousState.class;
+    if (
+      buttonValue === "Tavern Keeper" ||
+      buttonValue === "Archer" ||
+      buttonValue === "Cleric" ||
+      buttonValue === "Wizard"
+    ) {
+      previousState.class = buttonValue;
+      _class = buttonValue;
+    }
+
+    previousState.name =
+      CHARACTER_NAMES[_class][
+        Math.floor(Math.random() * CHARACTER_NAMES[_class].length)
+      ];
+  });
+
+  return c.res({
+    image: (
+      <div
+        style={{
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          fontSize: 60,
+        }}
+      >
+        <div style={{ display: "flex" }}>Hi {state.name}.</div>
+        <div style={{ display: "flex" }}>You're a {state.class}</div>
+      </div>
+    ),
+    intents: [
+      <Button value="apple" action="/mint">
+        Mint your Character
+      </Button>,
+      <Button action="/finish">Regenerate Name</Button>,
+    ],
+  });
+});
+
+app.frame("/mint", async (c) => {
+  // https://sepolia.etherscan.io/address/0xD4207017F90e020494b28432d54bA5c5Dc2A2b9F#code
+
+  const nftOwnerPrivateKey = process.env.NFT_OWNER_PRIVATE_KEY;
+
+  const { previousState } = c;
+  const account = privateKeyToAccount(nftOwnerPrivateKey as `0x${string}`);
+
+  const client = createWalletClient({
+    account,
+    chain: sepolia,
+    transport: http(),
+  });
+
+  const txHash = await client.writeContract({
+    address: NFT_CONTRACT_ADDRESS,
+    abi: nftAbi,
+    functionName: "safeMint",
+    account,
+    chain: sepolia,
+    args: [
+      // TODO: get Forcaster address
+      // Maybe do an duplicate address check from here
+      "0x",
+      previousState.name,
+      CLASS_DESCRIPTIONS[previousState.class],
+      previousState.class,
+      CLASSES_IMG_URI[previousState.class],
+    ],
+  });
+
+  return c.res({
+    image: (
+      <div style={{ color: "white", display: "flex", fontSize: 60 }}>
+        <div style={{ display: "flex" }}>Minting your character...</div>
+      </div>
+    ),
+    intents: [
+      <Button action="/status" value={txHash}>
+        Check Status
+      </Button>,
+    ],
+  });
+});
+
+app.frame("/status", async (c) => {
+  const { buttonValue } = c;
+  const client = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
+
+  let status = "pending";
+  try {
+    const txReceipt = await client.getTransactionReceipt({
+      hash: buttonValue as `0x${string}`,
+    });
+    status = txReceipt.status;
+  } catch (e) {}
+
+  return c.res({
+    image: (
+      <div
+        style={{
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          fontSize: 60,
+        }}
+      >
+        <div style={{ display: "flex" }}>Checking transaction status...</div>
+        <div style={{ display: "flex" }}>
+          {status === "pending"
+            ? "Pending"
+            : status === "success"
+            ? "Success"
+            : "Failed"}
+        </div>
+      </div>
+    ),
+    intents: [
+      <Button action="/status" value={buttonValue}>
+        Re-Check Status
+      </Button>,
+      <Button.Link href={`https://sepolia.etherscan.io/tx/${buttonValue}`}>
+        View on Etherscan
+      </Button.Link>,
     ],
   });
 });
