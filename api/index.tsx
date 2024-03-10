@@ -7,7 +7,7 @@ import { createPublicClient, createWalletClient, http } from "viem";
 import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 
-import nftAbi from "../lib/nft.json" with { type: "json" };
+import nftAbi from "../lib/nft.json" assert { type: "json" };
 import {
   CHARACTER_NAMES,
   CLASS_DESCRIPTIONS,
