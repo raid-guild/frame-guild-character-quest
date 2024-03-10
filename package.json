@@ -8,6 +8,7 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "@neynar/nodejs-sdk": "^1.11.2",
     "dotenv": "^16.4.5",
     "frog": "latest",
     "hono": "^4",

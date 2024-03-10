@@ -1,10 +1,12 @@
 import { Button, Frog } from "frog";
 import "dotenv/config";
-// import { neynar } from 'frog/hubs'
+// import { neynar } from "frog/hubs";
+import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { handle } from "frog/vercel";
 import { createPublicClient, createWalletClient, http } from "viem";
 import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
+
 import nftAbi from "../lib/nft.json";
 import {
   CHARACTER_NAMES,
@@ -25,8 +27,9 @@ export const app = new Frog({
     class: "",
     drinkCount: 0,
     name: "",
+    receivingAddress: "",
+    receivingAddressIndex: 0,
   },
-  // Supply a Hub to enable frame verification.
   // hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
@@ -457,8 +460,12 @@ app.frame("/9", (c) => {
   });
 });
 
-app.frame("/finish", (c) => {
-  const { deriveState, buttonValue } = c;
+app.frame("/finish", async (c) => {
+  const { deriveState, buttonValue, frameData } = c;
+  const { fid } = frameData;
+
+  const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
+  const res = await neynarClient.fetchBulkUsers([fid]);
 
   const state = deriveState((previousState) => {
     let _class = previousState.class;
@@ -472,11 +479,64 @@ app.frame("/finish", (c) => {
       _class = buttonValue;
     }
 
-    previousState.name =
-      CHARACTER_NAMES[_class][
-        Math.floor(Math.random() * CHARACTER_NAMES[_class].length)
-      ];
+    if (buttonValue !== "Address") {
+      previousState.name =
+        CHARACTER_NAMES[_class][
+          Math.floor(Math.random() * CHARACTER_NAMES[_class].length)
+        ];
+    }
+
+    if (buttonValue === "Address") {
+      if (
+        previousState.receivingAddressIndex - 1 <
+        res.users[0].verified_addresses.eth_addresses.length - 1
+      ) {
+        previousState.receivingAddressIndex++;
+      } else {
+        previousState.receivingAddressIndex = 0;
+      }
+    }
+
+    if (previousState.receivingAddressIndex > 0) {
+      previousState.receivingAddress =
+        res.users[0].verified_addresses.eth_addresses[
+          previousState.receivingAddressIndex - 1
+        ];
+    } else {
+      previousState.receivingAddress = res.users[0].custody_address;
+    }
   });
+
+  const client = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
+
+  const nftBalance = await client.readContract({
+    address: NFT_CONTRACT_ADDRESS,
+    abi: nftAbi,
+    functionName: "balanceOf",
+    args: [state.receivingAddress],
+  });
+
+  const cannotMint = Number(nftBalance) > 0;
+
+  const intents = [
+    <Button action="/finish" value="Name">
+      Regenerate Name
+    </Button>,
+    <Button action="/finish" value="Address">
+      Next Address
+    </Button>,
+  ];
+
+  if (!cannotMint) {
+    intents.push(
+      <Button value="apple" action="/mint">
+        Mint Character
+      </Button>
+    );
+  }
 
   return c.res({
     image: (
@@ -490,14 +550,13 @@ app.frame("/finish", (c) => {
       >
         <div style={{ display: "flex" }}>Hi {state.name}.</div>
         <div style={{ display: "flex" }}>You're a {state.class}</div>
+        <div style={{ display: "flex" }}>
+          Minting to {state.receivingAddress}
+        </div>
+        <div style={{ display: "flex" }}>{cannotMint ? "Cannot mint" : ""}</div>
       </div>
     ),
-    intents: [
-      <Button value="apple" action="/mint">
-        Mint your Character
-      </Button>,
-      <Button action="/finish">Regenerate Name</Button>,
-    ],
+    intents,
   });
 });
 
@@ -507,6 +566,7 @@ app.frame("/mint", async (c) => {
   const nftOwnerPrivateKey = process.env.NFT_OWNER_PRIVATE_KEY;
 
   const { previousState } = c;
+
   const account = privateKeyToAccount(nftOwnerPrivateKey as `0x${string}`);
 
   const client = createWalletClient({
@@ -515,22 +575,23 @@ app.frame("/mint", async (c) => {
     transport: http(),
   });
 
-  const txHash = await client.writeContract({
-    address: NFT_CONTRACT_ADDRESS,
-    abi: nftAbi,
-    functionName: "safeMint",
-    account,
-    chain: sepolia,
-    args: [
-      // TODO: get Forcaster address
-      // Maybe do an duplicate address check from here
-      "0x",
-      previousState.name,
-      CLASS_DESCRIPTIONS[previousState.class],
-      previousState.class,
-      CLASSES_IMG_URI[previousState.class],
-    ],
-  });
+  let txHash = "";
+  try {
+    txHash = await client.writeContract({
+      address: NFT_CONTRACT_ADDRESS,
+      abi: nftAbi,
+      functionName: "safeMint",
+      account,
+      chain: sepolia,
+      args: [
+        previousState.receivingAddress,
+        previousState.name,
+        CLASS_DESCRIPTIONS[previousState.class],
+        previousState.class,
+        CLASSES_IMG_URI[previousState.class],
+      ],
+    });
+  } catch (e) {}
 
   return c.res({
     image: (
