@@ -12,7 +12,7 @@ dependencies:
     specifier: ^16.4.5
     version: 16.4.5
   frog:
-    specifier: latest
+    specifier: ^0.5.6
     version: 0.5.6(@types/node@14.18.33)(hono@4.0.0)(typescript@5.3.3)
   hono:
     specifier: ^4
