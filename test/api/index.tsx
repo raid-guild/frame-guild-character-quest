@@ -1,26 +1,26 @@
 import { Button, Frog } from "frog";
 // import { neynar } from 'frog/hubs'
 import { handle } from "frog/vercel";
-// import { createPublicClient, createWalletClient, http } from "viem";
-// import { sepolia } from "viem/chains";
+import { createPublicClient, http } from "viem";
+import { sepolia } from "viem/chains";
 // import { privateKeyToAccount } from "viem/accounts";
-// import { NeynarAPIClient } from "@neynar/nodejs-sdk";
-// import "dotenv/config";
+import { NeynarAPIClient } from "@neynar/nodejs-sdk";
+import "dotenv/config";
 
-// import nftAbi from "../lib/nft.json" assert { type: "json" };
-// import {
-//   CHARACTER_NAMES,
-//   CLASS_DESCRIPTIONS,
-//   CLASSES_IMG_URI,
-//   NFT_CONTRACT_ADDRESS,
-// } from "../lib/constants.js";
+import nftAbi from "../lib/nft.json" assert { type: "json" };
+import {
+  CHARACTER_NAMES,
+  // CLASS_DESCRIPTIONS,
+  // CLASSES_IMG_URI,
+  NFT_CONTRACT_ADDRESS,
+} from "../lib/constants.js";
 
 // Uncomment to use Edge Runtime.
 // export const config = {
 //   runtime: 'edge',
 // }
 
-// type NFT_CLASS = "Tavern Keeper" | "Archer" | "Cleric" | "Wizard";
+type NFT_CLASS = "Tavern Keeper" | "Archer" | "Cleric" | "Wizard";
 
 export const app = new Frog({
   assetsPath: "/",
@@ -463,124 +463,124 @@ app.frame("/9", (c) => {
   });
 });
 
-// app.frame("/finish", async (c) => {
-//   const { deriveState, buttonValue, frameData } = c;
-//   const { fid } = frameData ?? {};
+app.frame("/finish", async (c) => {
+  const { deriveState, buttonValue, frameData } = c;
+  const { fid } = frameData ?? {};
 
-//   if (!fid) {
-//     return c.res({
-//       image: (
-//         <div
-//           style={{
-//             color: "white",
-//             display: "flex",
-//             flexDirection: "column",
-//             fontSize: 60,
-//           }}
-//         >
-//           <div style={{ display: "flex" }}>Error minting character</div>
-//         </div>
-//       ),
-//     });
-//   }
+  if (!fid) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            color: "white",
+            display: "flex",
+            flexDirection: "column",
+            fontSize: 60,
+          }}
+        >
+          <div style={{ display: "flex" }}>Error minting character</div>
+        </div>
+      ),
+    });
+  }
 
-//   const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY ?? "");
-//   const res = await neynarClient.fetchBulkUsers([fid]);
+  const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY ?? "");
+  const res = await neynarClient.fetchBulkUsers([fid]);
 
-//   const state = deriveState((previousState) => {
-//     let _class = previousState.class;
-//     if (
-//       buttonValue === "Tavern Keeper" ||
-//       buttonValue === "Archer" ||
-//       buttonValue === "Cleric" ||
-//       buttonValue === "Wizard"
-//     ) {
-//       previousState.class = buttonValue;
-//       _class = buttonValue;
-//     }
+  const state = deriveState((previousState) => {
+    let _class = previousState.class;
+    if (
+      buttonValue === "Tavern Keeper" ||
+      buttonValue === "Archer" ||
+      buttonValue === "Cleric" ||
+      buttonValue === "Wizard"
+    ) {
+      previousState.class = buttonValue;
+      _class = buttonValue;
+    }
 
-//     if (buttonValue !== "Address") {
-//       previousState.name =
-//         CHARACTER_NAMES[_class as NFT_CLASS][
-//           Math.floor(
-//             Math.random() * CHARACTER_NAMES[_class as NFT_CLASS].length
-//           )
-//         ];
-//     }
+    if (buttonValue !== "Address") {
+      previousState.name =
+        CHARACTER_NAMES[_class as NFT_CLASS][
+          Math.floor(
+            Math.random() * CHARACTER_NAMES[_class as NFT_CLASS].length
+          )
+        ];
+    }
 
-//     if (buttonValue === "Address") {
-//       if (
-//         previousState.receivingAddressIndex - 1 <
-//         res.users[0].verified_addresses.eth_addresses.length - 1
-//       ) {
-//         previousState.receivingAddressIndex++;
-//       } else {
-//         previousState.receivingAddressIndex = 0;
-//       }
-//     }
+    if (buttonValue === "Address") {
+      if (
+        previousState.receivingAddressIndex - 1 <
+        res.users[0].verified_addresses.eth_addresses.length - 1
+      ) {
+        previousState.receivingAddressIndex++;
+      } else {
+        previousState.receivingAddressIndex = 0;
+      }
+    }
 
-//     if (previousState.receivingAddressIndex > 0) {
-//       previousState.receivingAddress =
-//         res.users[0].verified_addresses.eth_addresses[
-//           previousState.receivingAddressIndex - 1
-//         ];
-//     } else {
-//       previousState.receivingAddress = res.users[0].custody_address;
-//     }
-//   });
+    if (previousState.receivingAddressIndex > 0) {
+      previousState.receivingAddress =
+        res.users[0].verified_addresses.eth_addresses[
+          previousState.receivingAddressIndex - 1
+        ];
+    } else {
+      previousState.receivingAddress = res.users[0].custody_address;
+    }
+  });
 
-//   const client = createPublicClient({
-//     chain: sepolia,
-//     transport: http(),
-//   });
+  const client = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
 
-//   const nftBalance = await client.readContract({
-//     address: NFT_CONTRACT_ADDRESS,
-//     abi: nftAbi,
-//     functionName: "balanceOf",
-//     args: [state.receivingAddress],
-//   });
+  const nftBalance = await client.readContract({
+    address: NFT_CONTRACT_ADDRESS,
+    abi: nftAbi,
+    functionName: "balanceOf",
+    args: [state.receivingAddress],
+  });
 
-//   const cannotMint = Number(nftBalance) > 0;
+  const cannotMint = Number(nftBalance) > 0;
 
-//   const intents = [
-//     <Button action="/finish" value="Name">
-//       Regenerate Name
-//     </Button>,
-//     <Button action="/finish" value="Address">
-//       Next Address
-//     </Button>,
-//   ];
+  const intents = [
+    <Button action="/finish" value="Name">
+      Regenerate Name
+    </Button>,
+    <Button action="/finish" value="Address">
+      Next Address
+    </Button>,
+  ];
 
-//   if (!cannotMint) {
-//     intents.push(
-//       <Button value="apple" action="/mint">
-//         Mint Character
-//       </Button>
-//     );
-//   }
+  if (!cannotMint) {
+    intents.push(
+      <Button value="apple" action="/mint">
+        Mint Character
+      </Button>
+    );
+  }
 
-//   return c.res({
-//     image: (
-//       <div
-//         style={{
-//           color: "white",
-//           display: "flex",
-//           flexDirection: "column",
-//           fontSize: 60,
-//         }}
-//       >
-//         <div style={{ display: "flex" }}>Hi {state.name}.</div>
-//         <div style={{ display: "flex" }}>You're a {state.class}</div>
-//         <div style={{ display: "flex" }}>
-//           Minting to {state.receivingAddress}
-//         </div>
-//         <div style={{ display: "flex" }}>{cannotMint ? "Cannot mint" : ""}</div>
-//       </div>
-//     ),
-//     intents,
-//   });
-// });
+  return c.res({
+    image: (
+      <div
+        style={{
+          color: "white",
+          display: "flex",
+          flexDirection: "column",
+          fontSize: 60,
+        }}
+      >
+        <div style={{ display: "flex" }}>Hi {state.name}.</div>
+        <div style={{ display: "flex" }}>You're a {state.class}</div>
+        <div style={{ display: "flex" }}>
+          Minting to {state.receivingAddress}
+        </div>
+        <div style={{ display: "flex" }}>{cannotMint ? "Cannot mint" : ""}</div>
+      </div>
+    ),
+    intents,
+  });
+});
 
 // app.frame("/mint", async (c) => {
 //   // https://sepolia.etherscan.io/address/0xD4207017F90e020494b28432d54bA5c5Dc2A2b9F#code
