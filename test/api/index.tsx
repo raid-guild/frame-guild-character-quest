@@ -1,18 +1,18 @@
 import { Button, Frog } from "frog";
 // import { neynar } from 'frog/hubs'
 import { handle } from "frog/vercel";
-// import { createPublicClient, http } from "viem";
-// import { sepolia } from "viem/chains";
+import { createPublicClient, http } from "viem";
+import { sepolia } from "viem/chains";
 // import { privateKeyToAccount } from "viem/accounts";
 // import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import "dotenv/config";
 
-// import nftAbi from "../lib/nft.json" assert { type: "json" };
+import nftAbi from "../lib/nft.json" assert { type: "json" };
 import {
   CHARACTER_NAMES,
   // CLASS_DESCRIPTIONS,
   // CLASSES_IMG_URI,
-  // NFT_CONTRACT_ADDRESS,
+  NFT_CONTRACT_ADDRESS,
 } from "../lib/constants.js";
 
 // Uncomment to use Edge Runtime.
@@ -529,19 +529,19 @@ app.frame("/finish", async (c) => {
     // }
   });
 
-  // const client = createPublicClient({
-  //   chain: sepolia,
-  //   transport: http(),
-  // });
+  const client = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
 
-  // const nftBalance = await client.readContract({
-  //   address: NFT_CONTRACT_ADDRESS,
-  //   abi: nftAbi,
-  //   functionName: "balanceOf",
-  //   args: [state.receivingAddress],
-  // });
+  const nftBalance = await client.readContract({
+    address: NFT_CONTRACT_ADDRESS,
+    abi: nftAbi,
+    functionName: "balanceOf",
+    args: [state.receivingAddress],
+  });
 
-  // const cannotMint = Number(nftBalance) > 0;
+  const cannotMint = Number(nftBalance) > 0;
 
   const intents = [
     <Button action="/finish" value="Name">
@@ -552,13 +552,13 @@ app.frame("/finish", async (c) => {
     </Button>,
   ];
 
-  // if (!cannotMint) {
-  //   intents.push(
-  //     <Button value="apple" action="/mint">
-  //       Mint Character
-  //     </Button>
-  //   );
-  // }
+  if (!cannotMint) {
+    intents.push(
+      <Button value="apple" action="/mint">
+        Mint Character
+      </Button>
+    );
+  }
 
   return c.res({
     image: (
