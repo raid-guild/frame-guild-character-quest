@@ -1,4 +1,4 @@
-import { Button, Frog, TextInput } from "frog";
+import { Button, Frog } from "frog";
 // import { neynar } from 'frog/hubs'
 import { handle } from "frog/vercel";
 
@@ -15,17 +15,12 @@ export const app = new Frog({
 });
 
 app.frame("/", (c) => {
-  const { buttonValue, inputText, status } = c;
-  const fruit = inputText || buttonValue;
   return c.res({
     image: (
       <div
         style={{
           alignItems: "center",
-          background:
-            status === "response"
-              ? "linear-gradient(to right, #432889, #17101F)"
-              : "black",
+          background: "black",
           backgroundSize: "100% 100%",
           display: "flex",
           flexDirection: "column",
@@ -48,18 +43,24 @@ app.frame("/", (c) => {
             whiteSpace: "pre-wrap",
           }}
         >
-          {status === "response"
-            ? `Nice choice.${fruit ? ` ${fruit.toUpperCase()}!!` : ""}`
-            : "Welcome!"}
+          You find yourself in a tavern, you see several colorful characters
+          making merry. Who do you talk to?
         </div>
       </div>
     ),
     intents: [
-      <TextInput placeholder="Enter custom fruit..." />,
-      <Button value="apples">Apples</Button>,
-      <Button value="oranges">Oranges</Button>,
-      <Button value="mangos">Mangos</Button>,
-      status === "response" && <Button.Reset>Reset</Button.Reset>,
+      <Button action="/2" value="Tavern Keeper">
+        Bartender
+      </Button>,
+      <Button action="/3" value="Archer">
+        Archer
+      </Button>,
+      <Button action="/4" value="Cleric">
+        Cleric
+      </Button>,
+      <Button action="/5" value="Wizard">
+        Wizard
+      </Button>,
     ],
   });
 });
