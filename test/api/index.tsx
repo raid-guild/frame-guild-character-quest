@@ -463,7 +463,7 @@ app.frame("/9", (c) => {
   });
 });
 
-app.frame("/finish", (c) => {
+app.frame("/finish", async (c) => {
   const { deriveState, buttonValue, frameData } = c;
   const { fid } = frameData ?? {};
 
