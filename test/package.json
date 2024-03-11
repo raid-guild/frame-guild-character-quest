@@ -8,8 +8,11 @@
     "deploy": "vercel"
   },
   "dependencies": {
+    "@neynar/nodejs-sdk": "^1.11.2",
+    "dotenv": "^16.4.5",
     "frog": "latest",
-    "hono": "^4"
+    "hono": "^4",
+    "viem": "^2.7.22"
   },
   "devDependencies": {
     "tsx": "^4.7.1",
