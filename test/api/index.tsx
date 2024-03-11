@@ -1,18 +1,18 @@
 import { Button, Frog } from "frog";
 // import { neynar } from 'frog/hubs'
 import { handle } from "frog/vercel";
-import { createPublicClient, http } from "viem";
-import { sepolia } from "viem/chains";
+// import { createPublicClient, http } from "viem";
+// import { sepolia } from "viem/chains";
 // import { privateKeyToAccount } from "viem/accounts";
-import { NeynarAPIClient } from "@neynar/nodejs-sdk";
+// import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import "dotenv/config";
 
-import nftAbi from "../lib/nft.json" assert { type: "json" };
+// import nftAbi from "../lib/nft.json" assert { type: "json" };
 import {
   CHARACTER_NAMES,
   // CLASS_DESCRIPTIONS,
   // CLASSES_IMG_URI,
-  NFT_CONTRACT_ADDRESS,
+  // NFT_CONTRACT_ADDRESS,
 } from "../lib/constants.js";
 
 // Uncomment to use Edge Runtime.
@@ -463,7 +463,7 @@ app.frame("/9", (c) => {
   });
 });
 
-app.frame("/finish", async (c) => {
+app.frame("/finish", (c) => {
   const { deriveState, buttonValue, frameData } = c;
   const { fid } = frameData ?? {};
 
@@ -484,8 +484,8 @@ app.frame("/finish", async (c) => {
     });
   }
 
-  const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY ?? "");
-  const res = await neynarClient.fetchBulkUsers([fid]);
+  // const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY ?? "");
+  // const res = await neynarClient.fetchBulkUsers([fid]);
 
   const state = deriveState((previousState) => {
     let _class = previousState.class;
@@ -508,40 +508,40 @@ app.frame("/finish", async (c) => {
         ];
     }
 
-    if (buttonValue === "Address") {
-      if (
-        previousState.receivingAddressIndex - 1 <
-        res.users[0].verified_addresses.eth_addresses.length - 1
-      ) {
-        previousState.receivingAddressIndex++;
-      } else {
-        previousState.receivingAddressIndex = 0;
-      }
-    }
+    // if (buttonValue === "Address") {
+    //   if (
+    //     previousState.receivingAddressIndex - 1 <
+    //     res.users[0].verified_addresses.eth_addresses.length - 1
+    //   ) {
+    //     previousState.receivingAddressIndex++;
+    //   } else {
+    //     previousState.receivingAddressIndex = 0;
+    //   }
+    // }
 
-    if (previousState.receivingAddressIndex > 0) {
-      previousState.receivingAddress =
-        res.users[0].verified_addresses.eth_addresses[
-          previousState.receivingAddressIndex - 1
-        ];
-    } else {
-      previousState.receivingAddress = res.users[0].custody_address;
-    }
+    // if (previousState.receivingAddressIndex > 0) {
+    //   previousState.receivingAddress =
+    //     res.users[0].verified_addresses.eth_addresses[
+    //       previousState.receivingAddressIndex - 1
+    //     ];
+    // } else {
+    //   previousState.receivingAddress = res.users[0].custody_address;
+    // }
   });
 
-  const client = createPublicClient({
-    chain: sepolia,
-    transport: http(),
-  });
+  // const client = createPublicClient({
+  //   chain: sepolia,
+  //   transport: http(),
+  // });
 
-  const nftBalance = await client.readContract({
-    address: NFT_CONTRACT_ADDRESS,
-    abi: nftAbi,
-    functionName: "balanceOf",
-    args: [state.receivingAddress],
-  });
+  // const nftBalance = await client.readContract({
+  //   address: NFT_CONTRACT_ADDRESS,
+  //   abi: nftAbi,
+  //   functionName: "balanceOf",
+  //   args: [state.receivingAddress],
+  // });
 
-  const cannotMint = Number(nftBalance) > 0;
+  // const cannotMint = Number(nftBalance) > 0;
 
   const intents = [
     <Button action="/finish" value="Name">
@@ -552,13 +552,13 @@ app.frame("/finish", async (c) => {
     </Button>,
   ];
 
-  if (!cannotMint) {
-    intents.push(
-      <Button value="apple" action="/mint">
-        Mint Character
-      </Button>
-    );
-  }
+  // if (!cannotMint) {
+  //   intents.push(
+  //     <Button value="apple" action="/mint">
+  //       Mint Character
+  //     </Button>
+  //   );
+  // }
 
   return c.res({
     image: (
@@ -575,7 +575,7 @@ app.frame("/finish", async (c) => {
         <div style={{ display: "flex" }}>
           Minting to {state.receivingAddress}
         </div>
-        <div style={{ display: "flex" }}>{cannotMint ? "Cannot mint" : ""}</div>
+        {/* <div style={{ display: "flex" }}>{cannotMint ? "Cannot mint" : ""}</div> */}
       </div>
     ),
     intents,
