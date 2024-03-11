@@ -1,6 +1,6 @@
 import { Button, Frog } from "frog";
 import "dotenv/config";
-// import { neynar } from "frog/hubs";
+import { neynar } from "frog/hubs";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { handle } from "frog/vercel";
 import { createPublicClient, createWalletClient, http } from "viem";
@@ -15,6 +15,7 @@ import { privateKeyToAccount } from "viem/accounts";
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
+  browserLocation: "/",
   initialState: {
     class: "",
     drinkCount: 0,
@@ -22,7 +23,7 @@ export const app = new Frog({
     receivingAddress: "",
     receivingAddressIndex: 0,
   },
-  // hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
+  hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
 app.frame("/", (c) => {
@@ -44,18 +45,28 @@ app.frame("/", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
           }}
         >
-          You find yourself in a tavern, you see several colorful characters
-          making merry. Who do you talk to?
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              fontFamily: "Times",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            You find yourself in a tavern, you see several colorful characters
+            making merry. Who do you talk to?
+          </div>
         </div>
       </div>
     ),
@@ -95,31 +106,56 @@ app.frame("/2", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            padding: "0 120px",
+            gap: "40px",
           }}
         >
-          The Tavern Keeper offers you a drink. "The Cleric is looking for
-          adventurers!"
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              height: "250px",
+              width: "160px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            The Tavern Keeper offers you a drink. "The Cleric is looking for
+            adventurers!"
+          </div>
         </div>
       </div>
     ),
     intents: [
+      <Button action="/finish" value="Tavern Keeper">
+        Join Me (Mint)
+      </Button>,
       <Button action="/6" value="Drink">
         Drink
       </Button>,
       <Button action="/4" value="Adventure">
         Adventure
-      </Button>,
-      <Button action="/finish" value="Tavern Keeper">
-        Join Me (mint)
       </Button>,
     ],
   });
@@ -144,34 +180,56 @@ app.frame("/3", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
+            alignItems: "center",
+            border: "6px solid #ff3864",
             padding: "0 120px",
-            whiteSpace: "pre-wrap",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            gap: "40px",
           }}
         >
-          An Archer is perched on a stool. You admire their sleek bow and
-          arrows.
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724)",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              height: "250px",
+              width: "160px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            An Archer is perched on a stool. You admire their sleek bow and
+            arrows.
+          </div>
         </div>
       </div>
     ),
     intents: [
-      <Button action="/5" value="Wizard">
-        See Wizard
+      <Button action="/finish" value="Archer">
+        Join Me (Mint)
       </Button>,
       <Button.Link href="https://warpcast.com/~/channel/raidguild">
         Follow
       </Button.Link>,
       <Button action="/" value="Bar">
         Return
-      </Button>,
-      <Button action="/finish" value="Archer">
-        Join Me (mint)
       </Button>,
     ],
   });
@@ -196,28 +254,54 @@ app.frame("/4", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            padding: "0 120px",
+            gap: "40px",
           }}
         >
-          A Cleric is recruiting raiders to join in defeating Moloch's minions.
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha)",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              height: "250px",
+              width: "220px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            A Cleric is recruiting raiders to join in defeating Moloch's
+            minions.
+          </div>
         </div>
       </div>
     ),
     intents: [
+      <Button action="/finish" value="Cleric">
+        Join Me (Mint)
+      </Button>,
       <Button.Link href="https://www.raidguild.org/join/1">Raid</Button.Link>,
       <Button action="/7" value="Moloch">
         Moloch
-      </Button>,
-      <Button action="/finish" value="Cleric">
-        Join Me (mint)
       </Button>,
     ],
   });
@@ -242,19 +326,44 @@ app.frame("/5", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            padding: "0 120px",
+            gap: "40px",
           }}
         >
-          A Wizard is rifling through parchments with arcane script. Are these
-          spells?
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              height: "250px",
+              width: "160px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            A Wizard is rifling through parchments with arcane script. Are these
+            spells?
+          </div>
         </div>
       </div>
     ),
@@ -291,25 +400,50 @@ app.frame("/6", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            padding: "0 120px",
+            gap: "40px",
           }}
         >
-          The Tavern Keeper gives you a drink, you enjoy it and feel a little
-          tipsy (you've had {state.drinkCount} drinks).
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              height: "250px",
+              width: "160px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 44,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            The Tavern Keeper gives you a drink, you enjoy it and feel a little
+            tipsy (you've had {state.drinkCount} drinks).
+          </div>
         </div>
       </div>
     ),
     intents: [
       <Button action={state.drinkCount === 5 ? "/8" : "/6"} value="Drink">
-        Drink more
+        Drink More
       </Button>,
       <Button action="/">Return</Button>,
     ],
@@ -335,19 +469,44 @@ app.frame("/7", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            padding: "0 120px",
+            gap: "40px",
           }}
         >
-          Moloch is the demon god of coordination failure, we fight him in
-          battle to free humanity!
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/QmQMX3YhhtV5rpKVYyqsP1MHFV4MzuMtKrUGEqhEC75HrY)",
+              backgroundSize: "200px 200px",
+              backgroundRepeat: "no-repeat",
+              height: "200px",
+              width: "200px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 42,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            Moloch is the demon god of coordination failure, we fight him in
+            battle to free humanity!
+          </div>
         </div>
       </div>
     ),
@@ -379,18 +538,27 @@ app.frame("/8", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
           }}
         >
-          You're drunk.
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            You're drunk.
+          </div>
         </div>
       </div>
     ),
@@ -419,35 +587,55 @@ app.frame("/9", (c) => {
       >
         <div
           style={{
-            color: "white",
-            fontSize: 60,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
-            lineHeight: 1.4,
-            marginTop: 30,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
+            alignItems: "center",
+            border: "6px solid #ff3864",
             display: "flex",
+            height: "60%",
+            width: "90%",
+            padding: "0 120px",
+            gap: "40px",
           }}
         >
-          "I deal in the art of spellcraft, weaving together arcane tapestries
-          upon which we can build tools to defeat Moloch once and for all!"
+          <div
+            style={{
+              alignItems: "center",
+              alignSelf: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              backgroundImage:
+                "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              height: "250px",
+              width: "160px",
+            }}
+          />
+          <div
+            style={{
+              color: "white",
+              fontSize: 36,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              whiteSpace: "pre-wrap",
+              display: "flex",
+            }}
+          >
+            "I deal in the art of spellcraft, weaving together arcane tapestries
+            upon which we can build tools to defeat Moloch once and for all!"
+          </div>
         </div>
       </div>
     ),
     intents: [
+      <Button action="/finish" value="Wizard">
+        Join Me (Mint)
+      </Button>,
       <Button.Link href="https://discord.com/invite/rGFpfQf">
         Battle!
       </Button.Link>,
-      <Button action="/" value="Tavern">
-        Tavern
-      </Button>,
-      <Button action="/4" value="Adventure">
-        Adventure
-      </Button>,
-      <Button action="/finish" value="Wizard">
-        Join Me (mint)
-      </Button>,
+      <Button action="/">Return</Button>,
     ],
   });
 });
@@ -542,18 +730,74 @@ app.frame("/finish", async (c) => {
     image: (
       <div
         style={{
-          color: "white",
+          alignItems: "center",
+          background: "black",
+          backgroundSize: "100% 100%",
           display: "flex",
           flexDirection: "column",
-          fontSize: 60,
+          flexWrap: "nowrap",
+          height: "100%",
+          justifyContent: "center",
+          textAlign: "center",
+          width: "100%",
         }}
       >
-        <div style={{ display: "flex" }}>Hi {state.name}.</div>
-        <div style={{ display: "flex" }}>You're a {state.class}</div>
-        <div style={{ display: "flex" }}>
-          Minting to {state.receivingAddress}
+        <div
+          style={{
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              justifyContent: "center",
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              Hi {state.name}.
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              You're a {state.class}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 32,
+                justifyContent: "center",
+              }}
+            >
+              Minting to {state.receivingAddress}
+            </div>
+            <div
+              style={{
+                display: "flex",
+                fontSize: 32,
+                justifyContent: "center",
+              }}
+            >
+              {cannotMint
+                ? "(Cannot mint. This address already has a balance of 1.)"
+                : ""}
+            </div>
+          </div>
         </div>
-        <div style={{ display: "flex" }}>{cannotMint ? "Cannot mint" : ""}</div>
       </div>
     ),
     intents,
@@ -617,8 +861,46 @@ app.frame("/mint", async (c) => {
 
   return c.res({
     image: (
-      <div style={{ color: "white", display: "flex", fontSize: 60 }}>
-        <div style={{ display: "flex" }}>Minting your character...</div>
+      <div
+        style={{
+          alignItems: "center",
+          background: "black",
+          backgroundSize: "100% 100%",
+          display: "flex",
+          flexDirection: "column",
+          flexWrap: "nowrap",
+          height: "100%",
+          justifyContent: "center",
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        <div
+          style={{
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              justifyContent: "center",
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            Minting your character...
+          </div>
+        </div>
       </div>
     ),
     intents: [
@@ -648,19 +930,52 @@ app.frame("/status", async (c) => {
     image: (
       <div
         style={{
-          color: "white",
+          alignItems: "center",
+          background: "black",
+          backgroundSize: "100% 100%",
           display: "flex",
           flexDirection: "column",
-          fontSize: 60,
+          flexWrap: "nowrap",
+          height: "100%",
+          justifyContent: "center",
+          textAlign: "center",
+          width: "100%",
         }}
       >
-        <div style={{ display: "flex" }}>Checking transaction status...</div>
-        <div style={{ display: "flex" }}>
-          {status === "pending"
-            ? "Pending"
-            : status === "success"
-            ? "Success"
-            : "Failed"}
+        <div
+          style={{
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              justifyContent: "center",
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              Checking transaction status...
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              {status === "pending"
+                ? "Pending..."
+                : status === "success"
+                ? "Success!"
+                : "Failed!"}
+            </div>
+          </div>
         </div>
       </div>
     ),
