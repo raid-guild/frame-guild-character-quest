@@ -77,9 +77,12 @@ app.frame("/", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/2" value="Tavern Keeper">
-        Bartender
-      </Button>,
+      // <Button action="/2" value="Tavern Keeper">
+      //   Bartender
+      // </Button>,
+      <Button.Link href="https://warpcast.com/~/compose?text=Enter%20the%20Tavern%20by%20%40raidguild&embeds[]=https://frame-guild-character-quest.vercel.app/api">
+        Share
+      </Button.Link>,
       <Button action="/3" value="Archer">
         Archer
       </Button>,
