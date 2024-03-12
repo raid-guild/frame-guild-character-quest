@@ -3,7 +3,13 @@ import "dotenv/config";
 import { neynar } from "frog/hubs";
 import { NeynarAPIClient } from "@neynar/nodejs-sdk";
 import { handle } from "frog/vercel";
-import { createPublicClient, createWalletClient, http } from "viem";
+import {
+  createPublicClient,
+  createWalletClient,
+  http,
+  parseEventLogs,
+  parseAbi,
+} from "viem";
 import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 
@@ -555,6 +561,8 @@ app.frame("/8", (c) => {
               padding: "0 120px",
               whiteSpace: "pre-wrap",
               display: "flex",
+              justifyContent: "center",
+              width: "100%",
             }}
           >
             You're drunk.
@@ -719,7 +727,7 @@ app.frame("/finish", async (c) => {
   ];
 
   if (!cannotMint) {
-    intents.push(
+    intents.unshift(
       <Button value="apple" action="/mint">
         Mint Character
       </Button>
@@ -857,7 +865,9 @@ app.frame("/mint", async (c) => {
         CLASSES_IMG_URI[previousState.class],
       ],
     });
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 
   return c.res({
     image: (
@@ -891,11 +901,11 @@ app.frame("/mint", async (c) => {
               fontStyle: "normal",
               letterSpacing: "-0.025em",
               lineHeight: 1.4,
-              justifyContent: "center",
               padding: "0 120px",
               whiteSpace: "pre-wrap",
               display: "flex",
-              flexDirection: "column",
+              justifyContent: "center",
+              width: "100%",
             }}
           >
             Minting your character...
@@ -919,12 +929,98 @@ app.frame("/status", async (c) => {
   });
 
   let status = "pending";
+  let tokenId = "";
+
   try {
     const txReceipt = await client.getTransactionReceipt({
       hash: buttonValue as `0x${string}`,
     });
     status = txReceipt.status;
-  } catch (e) {}
+
+    if (status === "success") {
+      const logs = [txReceipt.logs[0]];
+      const decodedLogs = parseEventLogs({
+        abi: parseAbi([
+          "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
+        ]),
+        logs,
+        eventName: "Transfer",
+      });
+
+      if (decodedLogs.length > 0) {
+        const firstLog = decodedLogs[0];
+        tokenId = firstLog.args.tokenId.toString();
+      }
+    }
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (!buttonValue) {
+    return c.res({
+      image: (
+        <div
+          style={{
+            alignItems: "center",
+            background: "black",
+            backgroundSize: "100% 100%",
+            display: "flex",
+            flexDirection: "column",
+            flexWrap: "nowrap",
+            height: "100%",
+            justifyContent: "center",
+            textAlign: "center",
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              alignItems: "center",
+              border: "6px solid #ff3864",
+              display: "flex",
+              height: "60%",
+              width: "90%",
+            }}
+          >
+            <div
+              style={{
+                color: "white",
+                fontSize: 48,
+                fontStyle: "normal",
+                letterSpacing: "-0.025em",
+                lineHeight: 1.4,
+                padding: "0 120px",
+                whiteSpace: "pre-wrap",
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              An error occurred.
+            </div>
+          </div>
+        </div>
+      ),
+      intents: [<Button action="/">Return</Button>],
+    });
+  }
+
+  const pendingIntents = [
+    <Button action="/status" value={buttonValue}>
+      Re-Check Status
+    </Button>,
+    <Button.Link href={`https://sepolia.etherscan.io/tx/${buttonValue}`}>
+      View on Etherscan
+    </Button.Link>,
+  ];
+
+  const successIntents = [
+    <Button.Link
+      href={`${process.env.OPENSEA_URL}${NFT_CONTRACT_ADDRESS}/${tokenId}`}
+    >
+      View on OpenSea
+    </Button.Link>,
+  ];
 
   return c.res({
     image: (
@@ -963,12 +1059,14 @@ app.frame("/status", async (c) => {
               whiteSpace: "pre-wrap",
               display: "flex",
               flexDirection: "column",
+              alignItems: "center",
+              width: "100%",
             }}
           >
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex" }}>
               Checking transaction status...
             </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{ display: "flex" }}>
               {status === "pending"
                 ? "Pending..."
                 : status === "success"
@@ -979,14 +1077,7 @@ app.frame("/status", async (c) => {
         </div>
       </div>
     ),
-    intents: [
-      <Button action="/status" value={buttonValue}>
-        Re-Check Status
-      </Button>,
-      <Button.Link href={`https://sepolia.etherscan.io/tx/${buttonValue}`}>
-        View on Etherscan
-      </Button.Link>,
-    ],
+    intents: status === "success" && tokenId ? successIntents : pendingIntents,
   });
 });
 
