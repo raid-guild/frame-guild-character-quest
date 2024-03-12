@@ -1009,14 +1009,14 @@ app.frame("/status", async (c) => {
     <Button action="/status" value={buttonValue}>
       Re-Check Status
     </Button>,
-    <Button.Link href={`https://sepolia.etherscan.io/tx/${buttonValue}`}>
+    <Button.Link href={`${process.env.ETHERSCAN_URL}/tx/${buttonValue}`}>
       View on Etherscan
     </Button.Link>,
   ];
 
   const successIntents = [
     <Button.Link
-      href={`${process.env.OPENSEA_URL}${NFT_CONTRACT_ADDRESS}/${tokenId}`}
+      href={`${process.env.OPENSEA_URL}/${NFT_CONTRACT_ADDRESS}/${tokenId}`}
     >
       View on OpenSea
     </Button.Link>,
