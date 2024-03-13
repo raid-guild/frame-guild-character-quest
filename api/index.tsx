@@ -1028,7 +1028,7 @@ app.frame("/share/:id", async (c) => {
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             height: "250px",
-            width: "160px",
+            width: "220px",
           }}
         />
         <div
@@ -1064,7 +1064,7 @@ app.frame("/share/:id", async (c) => {
               width: "700px",
             }}
           >
-            {description}
+            "{description}"
           </div>
         </div>
       </div>
@@ -1224,7 +1224,7 @@ app.frame("/id/:id", async (c) => {
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             height: "250px",
-            width: "160px",
+            width: "220px",
           }}
         />
         <div
@@ -1260,7 +1260,7 @@ app.frame("/id/:id", async (c) => {
               width: "700px",
             }}
           >
-            {description}
+            "{description}"
           </div>
         </div>
       </div>
