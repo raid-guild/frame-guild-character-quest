@@ -32,127 +32,105 @@ export const app = new Frog({
   hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
+const defaultContainer = (children: JSX.Element) => (
+  <div
+    style={{
+      alignItems: "center",
+      background: "black",
+      backgroundSize: "100% 100%",
+      display: "flex",
+      flexDirection: "column",
+      flexWrap: "nowrap",
+      height: "100%",
+      justifyContent: "center",
+      textAlign: "center",
+      width: "100%",
+    }}
+  >
+    {children}
+  </div>
+);
+
 app.frame("/", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
-            display: "flex",
-            height: "60%",
-            width: "90%",
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            fontFamily: "Times",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            padding: "0 120px",
+            whiteSpace: "pre-wrap",
           }}
         >
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              fontFamily: "Times",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            You find yourself in a tavern, you see several colorful characters
-            making merry. Who do you talk to?
-          </div>
+          You find yourself in a tavern, you see several colorful characters
+          making merry. Who do you talk to?
         </div>
       </div>
     ),
     intents: [
-      // <Button action="/2" value="Tavern Keeper">
-      //   Bartender
-      // </Button>,
-      <Button.Link href="https://warpcast.com/~/compose?text=Enter%20the%20Tavern%20by%20%40raidguild&embeds[]=https://frame-guild-character-quest.vercel.app/api">
-        Share
-      </Button.Link>,
-      <Button action="/3" value="Archer">
-        Archer
-      </Button>,
-      <Button action="/4" value="Cleric">
-        Cleric
-      </Button>,
-      <Button action="/5" value="Wizard">
-        Wizard
-      </Button>,
+      <Button action="/2">Bartender</Button>,
+      <Button action="/3">Archer</Button>,
+      <Button action="/4">Cleric</Button>,
+      <Button action="/5">Wizard</Button>,
     ],
   });
 });
 
 app.frame("/2", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            padding: "0 120px",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              height: "250px",
-              width: "160px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            The Tavern Keeper offers you a drink. "The Cleric is looking for
-            adventurers!"
-          </div>
+          The Tavern Keeper offers you a drink. "The Cleric is looking for
+          adventurers!"
         </div>
       </div>
     ),
@@ -172,61 +150,46 @@ app.frame("/2", (c) => {
 
 app.frame("/3", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
+          padding: "0 120px",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
-            padding: "0 120px",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724)",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724)",
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              height: "250px",
-              width: "160px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            An Archer is perched on a stool. You admire their sleek bow and
-            arrows.
-          </div>
+          An Archer is perched on a stool. You admire their sleek bow and
+          arrows.
         </div>
       </div>
     ),
@@ -237,70 +200,52 @@ app.frame("/3", (c) => {
       <Button.Link href="https://warpcast.com/~/channel/raidguild">
         Follow
       </Button.Link>,
-      <Button action="/" value="Bar">
-        Return
-      </Button>,
+      <Button action="/">Return</Button>,
     ],
   });
 });
 
 app.frame("/4", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            padding: "0 120px",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha)",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "220px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha)",
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              height: "250px",
-              width: "220px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            A Cleric is recruiting raiders to join in defeating Moloch's
-            minions.
-          </div>
+          A Cleric is recruiting raiders to join in defeating Moloch's minions.
         </div>
       </div>
     ),
@@ -309,70 +254,53 @@ app.frame("/4", (c) => {
         Join Me (Mint)
       </Button>,
       <Button.Link href="https://www.raidguild.org/join/1">Raid</Button.Link>,
-      <Button action="/7" value="Moloch">
-        Moloch
-      </Button>,
+      <Button action="/7">Moloch</Button>,
     ],
   });
 });
 
 app.frame("/5", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            padding: "0 120px",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              height: "250px",
-              width: "160px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            A Wizard is rifling through parchments with arcane script. Are these
-            spells?
-          </div>
+          A Wizard is rifling through parchments with arcane script. Are these
+          spells?
         </div>
       </div>
     ),
@@ -392,61 +320,46 @@ app.frame("/6", (c) => {
   });
 
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            padding: "0 120px",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 44,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              height: "250px",
-              width: "160px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 44,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            The Tavern Keeper gives you a drink, you enjoy it and feel a little
-            tipsy (you've had {state.drinkCount} drinks).
-          </div>
+          The Tavern Keeper gives you a drink, you enjoy it and feel a little
+          tipsy (you've had {state.drinkCount} drinks).
         </div>
       </div>
     ),
@@ -461,61 +374,46 @@ app.frame("/6", (c) => {
 
 app.frame("/7", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            padding: "0 120px",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/QmQMX3YhhtV5rpKVYyqsP1MHFV4MzuMtKrUGEqhEC75HrY)",
+            backgroundSize: "200px 200px",
+            backgroundRepeat: "no-repeat",
+            height: "200px",
+            width: "200px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 42,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/QmQMX3YhhtV5rpKVYyqsP1MHFV4MzuMtKrUGEqhEC75HrY)",
-              backgroundSize: "200px 200px",
-              backgroundRepeat: "no-repeat",
-              height: "200px",
-              width: "200px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 42,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            Moloch is the demon god of coordination failure, we fight him in
-            battle to free humanity!
-          </div>
+          Moloch is the demon god of coordination failure, we fight him in
+          battle to free humanity!
         </div>
       </div>
     ),
@@ -530,112 +428,83 @@ app.frame("/7", (c) => {
 
 app.frame("/8", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            padding: "0 120px",
+            whiteSpace: "pre-wrap",
             display: "flex",
-            height: "60%",
-            width: "90%",
+            justifyContent: "center",
+            width: "100%",
           }}
         >
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            You're drunk.
-          </div>
+          You're drunk.
         </div>
       </div>
     ),
     intents: [
       <Button.Link href="https://brood.raidguild.org/">Brood</Button.Link>,
+      <Button action="/">Return</Button>,
     ],
   });
 });
 
 app.frame("/9", (c) => {
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
         }}
       >
         <div
           style={{
             alignItems: "center",
-            border: "6px solid #ff3864",
+            alignSelf: "center",
+            justifyContent: "center",
             display: "flex",
-            height: "60%",
-            width: "90%",
-            padding: "0 120px",
-            gap: "40px",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 36,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
           }}
         >
-          <div
-            style={{
-              alignItems: "center",
-              alignSelf: "center",
-              justifyContent: "center",
-              display: "flex",
-              flexDirection: "column",
-              backgroundImage:
-                "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              height: "250px",
-              width: "160px",
-            }}
-          />
-          <div
-            style={{
-              color: "white",
-              fontSize: 36,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              whiteSpace: "pre-wrap",
-              display: "flex",
-            }}
-          >
-            "I deal in the art of spellcraft, weaving together arcane tapestries
-            upon which we can build tools to defeat Moloch once and for all!"
-          </div>
+          "I deal in the art of spellcraft, weaving together arcane tapestries
+          upon which we can build tools to defeat Moloch once and for all!"
         </div>
       </div>
     ),
@@ -738,75 +607,60 @@ app.frame("/finish", async (c) => {
   }
 
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            justifyContent: "center",
+            padding: "0 120px",
+            whiteSpace: "pre-wrap",
             display: "flex",
-            height: "60%",
-            width: "90%",
+            flexDirection: "column",
           }}
         >
           <div
             style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              justifyContent: "center",
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
               display: "flex",
-              flexDirection: "column",
+              justifyContent: "center",
             }}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              Hi {state.name}.
-            </div>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              You're a {state.class}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                fontSize: 32,
-                justifyContent: "center",
-              }}
-            >
-              Minting to {state.receivingAddress}
-            </div>
-            <div
-              style={{
-                display: "flex",
-                fontSize: 32,
-                justifyContent: "center",
-              }}
-            >
-              {cannotMint
-                ? "(Cannot mint. This address already has a balance of 1.)"
-                : ""}
-            </div>
+            Hi {state.name}.
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            You're a {state.class}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 32,
+              justifyContent: "center",
+            }}
+          >
+            Minting to {state.receivingAddress}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 32,
+              justifyContent: "center",
+            }}
+          >
+            {cannotMint
+              ? "(Cannot mint. This address already has a balance of 1.)"
+              : ""}
           </div>
         </div>
       </div>
@@ -816,8 +670,6 @@ app.frame("/finish", async (c) => {
 });
 
 app.frame("/mint", async (c) => {
-  // https://sepolia.etherscan.io/address/0xD4207017F90e020494b28432d54bA5c5Dc2A2b9F#code
-
   const nftOwnerPrivateKey = process.env.NFT_OWNER_PRIVATE_KEY;
 
   const { previousState } = c;
@@ -873,46 +725,31 @@ app.frame("/mint", async (c) => {
   }
 
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            padding: "0 120px",
+            whiteSpace: "pre-wrap",
             display: "flex",
-            height: "60%",
-            width: "90%",
+            justifyContent: "center",
+            width: "100%",
           }}
         >
-          <div
-            style={{
-              color: "white",
-              fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
-              lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
-            }}
-          >
-            Minting your character...
-          </div>
+          Minting your character...
         </div>
       </div>
     ),
@@ -961,46 +798,31 @@ app.frame("/status", async (c) => {
 
   if (!buttonValue) {
     return c.res({
-      image: (
+      image: defaultContainer(
         <div
           style={{
             alignItems: "center",
-            background: "black",
-            backgroundSize: "100% 100%",
+            border: "6px solid #ff3864",
             display: "flex",
-            flexDirection: "column",
-            flexWrap: "nowrap",
-            height: "100%",
-            justifyContent: "center",
-            textAlign: "center",
-            width: "100%",
+            height: "60%",
+            width: "90%",
           }}
         >
           <div
             style={{
-              alignItems: "center",
-              border: "6px solid #ff3864",
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
               display: "flex",
-              height: "60%",
-              width: "90%",
+              justifyContent: "center",
+              width: "100%",
             }}
           >
-            <div
-              style={{
-                color: "white",
-                fontSize: 48,
-                fontStyle: "normal",
-                letterSpacing: "-0.025em",
-                lineHeight: 1.4,
-                padding: "0 120px",
-                whiteSpace: "pre-wrap",
-                display: "flex",
-                justifyContent: "center",
-                width: "100%",
-              }}
-            >
-              An error occurred.
-            </div>
+            An error occurred.
           </div>
         </div>
       ),
@@ -1018,29 +840,60 @@ app.frame("/status", async (c) => {
   ];
 
   const successIntents = [
-    <Button.Link
-      href={`${process.env.OPENSEA_URL}/${NFT_CONTRACT_ADDRESS}/${tokenId}`}
-    >
-      View on OpenSea
+    <Button action={`/share/${tokenId}`}>View Character</Button>,
+    <Button.Link href={`${process.env.ETHERSCAN_URL}/tx/${buttonValue}`}>
+      View on Etherscan
     </Button.Link>,
   ];
 
   return c.res({
-    image: (
+    image: defaultContainer(
       <div
         style={{
           alignItems: "center",
-          background: "black",
-          backgroundSize: "100% 100%",
+          border: "6px solid #ff3864",
           display: "flex",
-          flexDirection: "column",
-          flexWrap: "nowrap",
-          height: "100%",
-          justifyContent: "center",
-          textAlign: "center",
-          width: "100%",
+          height: "60%",
+          width: "90%",
         }}
       >
+        <div
+          style={{
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            justifyContent: "center",
+            padding: "0 120px",
+            whiteSpace: "pre-wrap",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <div style={{ display: "flex" }}>Checking transaction status...</div>
+          <div style={{ display: "flex" }}>
+            {status === "pending"
+              ? "Pending..."
+              : status === "success"
+              ? "Success!"
+              : "Failed!"}
+          </div>
+        </div>
+      </div>
+    ),
+    intents: status === "success" && tokenId ? successIntents : pendingIntents,
+  });
+});
+
+app.frame("/share/:id", async (c) => {
+  const tokenId = c.req.param("id");
+
+  if (!tokenId) {
+    return c.res({
+      image: defaultContainer(
         <div
           style={{
             alignItems: "center",
@@ -1057,32 +910,404 @@ app.frame("/status", async (c) => {
               fontStyle: "normal",
               letterSpacing: "-0.025em",
               lineHeight: 1.4,
-              justifyContent: "center",
               padding: "0 120px",
               whiteSpace: "pre-wrap",
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              justifyContent: "center",
               width: "100%",
             }}
           >
-            <div style={{ display: "flex" }}>
-              Checking transaction status...
-            </div>
-            <div style={{ display: "flex" }}>
-              {status === "pending"
-                ? "Pending..."
-                : status === "success"
-                ? "Success!"
-                : "Failed!"}
-            </div>
+            An error occurred.
+          </div>
+        </div>
+      ),
+      intents: [<Button action="/">Return</Button>],
+    });
+  }
+
+  const client = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
+
+  let name = "";
+  let description = "";
+  let imageUri = "";
+  let classType = "";
+
+  try {
+    const characterMetas = await client.readContract({
+      address: NFT_CONTRACT_ADDRESS,
+      abi: [
+        {
+          inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          name: "characterMetas",
+          outputs: [
+            { internalType: "string", name: "characterName", type: "string" },
+            {
+              internalType: "string",
+              name: "characterDescription",
+              type: "string",
+            },
+            { internalType: "string", name: "characterClass", type: "string" },
+            {
+              internalType: "string",
+              name: "characterImageUri",
+              type: "string",
+            },
+            { internalType: "address", name: "initialOwner", type: "address" },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      functionName: "characterMetas",
+      args: [BigInt(tokenId)],
+    });
+
+    [name, description, classType, imageUri] = characterMetas;
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (!(name && description && classType && imageUri)) {
+    return c.res({
+      image: defaultContainer(
+        <div
+          style={{
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            NFT does not exist.
+          </div>
+        </div>
+      ),
+      intents: [<Button action="/">Return</Button>],
+    });
+  }
+
+  return c.res({
+    image: defaultContainer(
+      <div
+        style={{
+          alignItems: "center",
+          border: "6px solid #ff3864",
+          display: "flex",
+          height: "80%",
+          width: "90%",
+          padding: "0 60px",
+          gap: "60px",
+        }}
+      >
+        <div
+          style={{
+            alignItems: "center",
+            alignSelf: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            backgroundImage: `url(${uriToHttp(imageUri)[0]})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            alignItems: "flex-start",
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          <div style={{ display: "flex", textAlign: "left" }}>{name}</div>
+          <div
+            style={{
+              display: "flex",
+              textAlign: "left",
+              fontSize: 32,
+            }}
+          >
+            Class: {classType}
+          </div>
+          <div style={{ display: "flex" }}>---</div>
+          <div
+            style={{
+              display: "flex",
+              textAlign: "left",
+              fontSize: 32,
+              width: "700px",
+            }}
+          >
+            {description}
           </div>
         </div>
       </div>
     ),
-    intents: status === "success" && tokenId ? successIntents : pendingIntents,
+    intents: [
+      <Button.Link
+        href={`https://warpcast.com/~/compose?text=Enter%20the%20Tavern%20by%20%40raidguild&embeds[]=https://frame-guild-character-quest.vercel.app/api/id/${tokenId}`}
+      >
+        Share
+      </Button.Link>,
+      <Button.Link
+        href={`${process.env.OPENSEA_URL}/${NFT_CONTRACT_ADDRESS}/${tokenId}`}
+      >
+        View on OpenSea
+      </Button.Link>,
+    ],
   });
 });
+
+app.frame("/id/:id", async (c) => {
+  const tokenId = c.req.param("id");
+
+  if (!tokenId) {
+    return c.res({
+      image: defaultContainer(
+        <div
+          style={{
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            An error occurred.
+          </div>
+        </div>
+      ),
+      intents: [<Button action="/">Return</Button>],
+    });
+  }
+
+  const client = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
+
+  let name = "";
+  let description = "";
+  let imageUri = "";
+  let classType = "";
+
+  try {
+    const characterMetas = await client.readContract({
+      address: NFT_CONTRACT_ADDRESS,
+      abi: [
+        {
+          inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+          name: "characterMetas",
+          outputs: [
+            { internalType: "string", name: "characterName", type: "string" },
+            {
+              internalType: "string",
+              name: "characterDescription",
+              type: "string",
+            },
+            { internalType: "string", name: "characterClass", type: "string" },
+            {
+              internalType: "string",
+              name: "characterImageUri",
+              type: "string",
+            },
+            { internalType: "address", name: "initialOwner", type: "address" },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+      ],
+      functionName: "characterMetas",
+      args: [BigInt(tokenId)],
+    });
+
+    [name, description, classType, imageUri] = characterMetas;
+  } catch (e) {
+    console.error(e);
+  }
+
+  if (!(name && description && classType && imageUri)) {
+    return c.res({
+      image: defaultContainer(
+        <div
+          style={{
+            alignItems: "center",
+            border: "6px solid #ff3864",
+            display: "flex",
+            height: "60%",
+            width: "90%",
+          }}
+        >
+          <div
+            style={{
+              color: "white",
+              fontSize: 48,
+              fontStyle: "normal",
+              letterSpacing: "-0.025em",
+              lineHeight: 1.4,
+              padding: "0 120px",
+              whiteSpace: "pre-wrap",
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
+            NFT does not exist.
+          </div>
+        </div>
+      ),
+      intents: [<Button action="/">Return</Button>],
+    });
+  }
+
+  return c.res({
+    image: defaultContainer(
+      <div
+        style={{
+          alignItems: "center",
+          border: "6px solid #ff3864",
+          display: "flex",
+          height: "80%",
+          width: "90%",
+          padding: "0 60px",
+          gap: "60px",
+        }}
+      >
+        <div
+          style={{
+            alignItems: "center",
+            alignSelf: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            backgroundImage: `url(${uriToHttp(imageUri)[0]})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            height: "250px",
+            width: "160px",
+          }}
+        />
+        <div
+          style={{
+            alignItems: "flex-start",
+            color: "white",
+            fontSize: 48,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+          }}
+        >
+          <div style={{ display: "flex", textAlign: "left" }}>{name}</div>
+          <div
+            style={{
+              display: "flex",
+              textAlign: "left",
+              fontSize: 32,
+            }}
+          >
+            Class: {classType}
+          </div>
+          <div style={{ display: "flex" }}>---</div>
+          <div
+            style={{
+              display: "flex",
+              textAlign: "left",
+              fontSize: 32,
+              width: "700px",
+            }}
+          >
+            {description}
+          </div>
+        </div>
+      </div>
+    ),
+    intents: [
+      <Button action="/">Mint your own character!</Button>,
+      <Button.Link
+        href={`${process.env.OPENSEA_URL}/${NFT_CONTRACT_ADDRESS}/${tokenId}`}
+      >
+        View on OpenSea
+      </Button.Link>,
+    ],
+  });
+});
+
+const IPFS_GATEWAYS = ["https://cloudflare-ipfs.com"];
+
+export const uriToHttp = (uri: string): string[] => {
+  try {
+    const protocol = uri.split(":")[0].toLowerCase();
+    switch (protocol) {
+      case "data":
+        return [uri];
+      case "https":
+        return [uri];
+      case "http":
+        return ["https" + uri.substring(4), uri];
+      case "ipfs": {
+        const hash = uri.match(/^ipfs:(\/\/)?(.*)$/i)?.[2];
+        return IPFS_GATEWAYS.map((g) => `${g}/ipfs/${hash}`);
+      }
+      case "ipns": {
+        const name = uri.match(/^ipns:(\/\/)?(.*)$/i)?.[2];
+        return IPFS_GATEWAYS.map((g) => `${g}/ipns/${name}`);
+      }
+      case "ar": {
+        const tx = uri.match(/^ar:(\/\/)?(.*)$/i)?.[2];
+        return [`https://arweave.net/${tx}`];
+      }
+      default:
+        return [];
+    }
+  } catch (e) {
+    console.error(e);
+    return ["", ""];
+  }
+};
 
 const CLASSES_IMG_URI = {
   "Tavern Keeper":
