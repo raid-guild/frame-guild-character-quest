@@ -10,7 +10,7 @@ import {
   parseEventLogs,
   parseAbi,
 } from "viem";
-import { sepolia } from "viem/chains";
+import { base } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 
 // Uncomment to use Edge Runtime.
@@ -18,10 +18,13 @@ import { privateKeyToAccount } from "viem/accounts";
 //   runtime: 'edge',
 // }
 
+const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS as `0x${string}`;
+
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
   browserLocation: "/",
+  secret: process.env.SECRET,
   initialState: {
     class: "",
     drinkCount: 0,
@@ -53,6 +56,7 @@ const defaultContainer = (children: JSX.Element) => (
 
 app.frame("/", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -91,6 +95,7 @@ app.frame("/", (c) => {
 
 app.frame("/2", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -150,6 +155,7 @@ app.frame("/2", (c) => {
 
 app.frame("/3", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -207,6 +213,7 @@ app.frame("/3", (c) => {
 
 app.frame("/4", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -261,6 +268,7 @@ app.frame("/4", (c) => {
 
 app.frame("/5", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -320,6 +328,7 @@ app.frame("/6", (c) => {
   });
 
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -374,6 +383,7 @@ app.frame("/6", (c) => {
 
 app.frame("/7", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -428,6 +438,7 @@ app.frame("/7", (c) => {
 
 app.frame("/8", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -465,6 +476,7 @@ app.frame("/8", (c) => {
 
 app.frame("/9", (c) => {
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -568,7 +580,7 @@ app.frame("/finish", async (c) => {
   });
 
   const client = createPublicClient({
-    chain: sepolia,
+    chain: base,
     transport: http(),
   });
 
@@ -607,6 +619,7 @@ app.frame("/finish", async (c) => {
   }
 
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -640,7 +653,7 @@ app.frame("/finish", async (c) => {
             Hi {state.name}.
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            You're a {state.class}
+            You're a{state.class === "Archer" ? "n" : ""} {state.class}
           </div>
           <div
             style={{
@@ -678,7 +691,7 @@ app.frame("/mint", async (c) => {
 
   const client = createWalletClient({
     account,
-    chain: sepolia,
+    chain: base,
     transport: http(),
   });
 
@@ -711,7 +724,7 @@ app.frame("/mint", async (c) => {
       ],
       functionName: "safeMint",
       account,
-      chain: sepolia,
+      chain: base,
       args: [
         previousState.receivingAddress as `0x${string}`,
         previousState.name,
@@ -725,6 +738,7 @@ app.frame("/mint", async (c) => {
   }
 
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -764,7 +778,7 @@ app.frame("/mint", async (c) => {
 app.frame("/status", async (c) => {
   const { buttonValue } = c;
   const client = createPublicClient({
-    chain: sepolia,
+    chain: base,
     transport: http(),
   });
 
@@ -798,6 +812,7 @@ app.frame("/status", async (c) => {
 
   if (!buttonValue) {
     return c.res({
+      title: "Enter the Tavern",
       image: defaultContainer(
         <div
           style={{
@@ -847,6 +862,7 @@ app.frame("/status", async (c) => {
   ];
 
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -893,6 +909,7 @@ app.frame("/share/:id", async (c) => {
 
   if (!tokenId) {
     return c.res({
+      title: "Enter the Tavern",
       image: defaultContainer(
         <div
           style={{
@@ -926,7 +943,7 @@ app.frame("/share/:id", async (c) => {
   }
 
   const client = createPublicClient({
-    chain: sepolia,
+    chain: base,
     transport: http(),
   });
 
@@ -972,6 +989,7 @@ app.frame("/share/:id", async (c) => {
 
   if (!(name && description && classType && imageUri)) {
     return c.res({
+      title: "Enter the Tavern",
       image: defaultContainer(
         <div
           style={{
@@ -1005,6 +1023,7 @@ app.frame("/share/:id", async (c) => {
   }
 
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -1089,6 +1108,7 @@ app.frame("/id/:id", async (c) => {
 
   if (!tokenId) {
     return c.res({
+      title: "Enter the Tavern",
       image: defaultContainer(
         <div
           style={{
@@ -1122,7 +1142,7 @@ app.frame("/id/:id", async (c) => {
   }
 
   const client = createPublicClient({
-    chain: sepolia,
+    chain: base,
     transport: http(),
   });
 
@@ -1168,6 +1188,7 @@ app.frame("/id/:id", async (c) => {
 
   if (!(name && description && classType && imageUri)) {
     return c.res({
+      title: "Enter the Tavern",
       image: defaultContainer(
         <div
           style={{
@@ -1201,6 +1222,7 @@ app.frame("/id/:id", async (c) => {
   }
 
   return c.res({
+    title: "Enter the Tavern",
     image: defaultContainer(
       <div
         style={{
@@ -1628,8 +1650,6 @@ const CLASS_DESCRIPTIONS = {
   Archer: `I raise my bow and see my target, Moloch! After I weaken the demon with design, the Raid Party then attacks with an advantage.`,
   Wizard: `Smart Contracts are my wizardry! When I join a Raid Party, I attack Moloch with onchain powers and level up all my fellow Raiders.`,
 };
-
-const NFT_CONTRACT_ADDRESS = "0xD4207017F90e020494b28432d54bA5c5Dc2A2b9F";
 
 export const GET = handle(app);
 export const POST = handle(app);
