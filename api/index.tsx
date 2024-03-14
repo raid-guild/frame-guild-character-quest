@@ -32,9 +32,7 @@ export const app = new Frog({
     receivingAddress: "",
     receivingAddressIndex: 0,
   },
-  dev: {
-    enabled: false,
-  },
+  verify: "silent",
   hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
