@@ -63,7 +63,9 @@ app.frame("/", (c) => {
         style={{
           alignItems: "center",
           border: "6px solid #ff3864",
+          justifyContent: "center",
           display: "flex",
+          flexDirection: "column",
           height: "60%",
           width: "90%",
         }}
@@ -71,17 +73,32 @@ app.frame("/", (c) => {
         <div
           style={{
             color: "white",
-            fontSize: 48,
+            fontSize: 38,
+            fontStyle: "normal",
+            fontFamily: "Times",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            padding: "0 80px",
+            whiteSpace: "pre-wrap",
+          }}
+        >
+          You find yourself in a tavern, you see several colorful characters
+          making merry. Who do you talk to?
+        </div>
+        <div
+          style={{
+            color: "white",
+            fontSize: 32,
             fontStyle: "normal",
             fontFamily: "Times",
             letterSpacing: "-0.025em",
             lineHeight: 1.4,
             padding: "0 120px",
             whiteSpace: "pre-wrap",
+            marginTop: "40px",
           }}
         >
-          You find yourself in a tavern, you see several colorful characters
-          making merry. Who do you talk to?
+          (Minting is over, but you can still peruse the tavern.)
         </div>
       </div>
     ),
@@ -141,9 +158,9 @@ app.frame("/2", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/finish" value="Tavern Keeper">
-        Join Me (Mint)
-      </Button>,
+      // <Button action="/finish" value="Tavern Keeper">
+      //   Join Me (Mint)
+      // </Button>,
       <Button action="/6" value="Drink">
         Drink
       </Button>,
@@ -201,9 +218,9 @@ app.frame("/3", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/finish" value="Archer">
-        Join Me (Mint)
-      </Button>,
+      // <Button action="/finish" value="Archer">
+      //   Join Me (Mint)
+      // </Button>,
       <Button.Link href="https://warpcast.com/~/channel/raidguild">
         Follow
       </Button.Link>,
@@ -258,9 +275,9 @@ app.frame("/4", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/finish" value="Cleric">
-        Join Me (Mint)
-      </Button>,
+      // <Button action="/finish" value="Cleric">
+      //   Join Me (Mint)
+      // </Button>,
       <Button.Link href="https://www.raidguild.org/join/1">Raid</Button.Link>,
       <Button action="/7">Moloch</Button>,
     ],
@@ -522,9 +539,9 @@ app.frame("/9", (c) => {
       </div>
     ),
     intents: [
-      <Button action="/finish" value="Wizard">
-        Join Me (Mint)
-      </Button>,
+      // <Button action="/finish" value="Wizard">
+      //   Join Me (Mint)
+      // </Button>,
       <Button.Link href="https://discord.com/invite/rGFpfQf">
         Battle!
       </Button.Link>,
