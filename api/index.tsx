@@ -55,44 +55,7 @@ const defaultContainer = (children: JSX.Element) => (
   </div>
 );
 
-const defaultErrorResponse = () => ({
-  title: "Enter the Tavern",
-  image: defaultContainer(
-    <div
-      style={{
-        alignItems: "center",
-        border: "6px solid #ff3864",
-        display: "flex",
-        height: "60%",
-        width: "90%",
-      }}
-    >
-      <div
-        style={{
-          color: "white",
-          fontSize: 48,
-          fontStyle: "normal",
-          letterSpacing: "-0.025em",
-          lineHeight: 1.4,
-          padding: "0 120px",
-          whiteSpace: "pre-wrap",
-          display: "flex",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        An error occurred.
-      </div>
-    </div>
-  ),
-  intents: [<Button action="/">Return</Button>],
-});
-
 app.frame("/", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -132,9 +95,6 @@ app.frame("/", (c) => {
 });
 
 app.frame("/2", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -195,10 +155,6 @@ app.frame("/2", (c) => {
 });
 
 app.frame("/3", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -257,10 +213,6 @@ app.frame("/3", (c) => {
 });
 
 app.frame("/4", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -316,10 +268,6 @@ app.frame("/4", (c) => {
 });
 
 app.frame("/5", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -374,9 +322,7 @@ app.frame("/5", (c) => {
 });
 
 app.frame("/6", (c) => {
-  const { buttonValue, deriveState, verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
+  const { buttonValue, deriveState } = c;
 
   const state = deriveState((previousState) => {
     if (buttonValue === "Drink") previousState.drinkCount++;
@@ -437,10 +383,6 @@ app.frame("/6", (c) => {
 });
 
 app.frame("/7", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -496,10 +438,6 @@ app.frame("/7", (c) => {
 });
 
 app.frame("/8", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -538,10 +476,6 @@ app.frame("/8", (c) => {
 });
 
 app.frame("/9", (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   return c.res({
     title: "Enter the Tavern",
     image: defaultContainer(
@@ -600,10 +534,7 @@ app.frame("/9", (c) => {
 });
 
 app.frame("/finish", async (c) => {
-  const { deriveState, buttonValue, frameData, verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
+  const { deriveState, buttonValue, frameData } = c;
   const { fid } = frameData;
 
   const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
@@ -755,9 +686,7 @@ app.frame("/finish", async (c) => {
 app.frame("/mint", async (c) => {
   const nftOwnerPrivateKey = process.env.NFT_OWNER_PRIVATE_KEY;
 
-  const { previousState, verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
+  const { previousState } = c;
 
   const account = privateKeyToAccount(nftOwnerPrivateKey as `0x${string}`);
 
@@ -848,10 +777,7 @@ app.frame("/mint", async (c) => {
 });
 
 app.frame("/status", async (c) => {
-  const { buttonValue, verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
+  const { buttonValue } = c;
   const client = createPublicClient({
     chain: base,
     transport: http(),
@@ -980,10 +906,6 @@ app.frame("/status", async (c) => {
 });
 
 app.frame("/share/:id", async (c) => {
-  const { verified } = c;
-
-  if (!verified) return c.res(defaultErrorResponse());
-
   const tokenId = c.req.param("id");
 
   if (!tokenId) {
