@@ -23,7 +23,7 @@ const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS as `0x${string}`;
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
-  browserLocation: "/",
+  // browserLocation: "/",
   secret: process.env.SECRET,
   initialState: {
     class: "",
@@ -33,7 +33,7 @@ export const app = new Frog({
     receivingAddressIndex: 0,
   },
   verify: "silent",
-  hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
+  // hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
 const defaultContainer = (children: JSX.Element) => (
@@ -82,8 +82,7 @@ app.frame("/", (c) => {
             whiteSpace: "pre-wrap",
           }}
         >
-          You find yourself in a tavern, you see several colorful characters
-          making merry. Who do you talk to?
+          Welcome back to the tavern, you have been selected to unearth a magic item
         </div>
         <div
           style={{
@@ -98,15 +97,15 @@ app.frame("/", (c) => {
             marginTop: "40px",
           }}
         >
-          (Minting is over, but you can still peruse the tavern.)
+          (Choose wisely.)
         </div>
       </div>
     ),
     intents: [
-      <Button action="/2">Bartender</Button>,
-      <Button action="/3">Archer</Button>,
-      <Button action="/4">Cleric</Button>,
-      <Button action="/5">Wizard</Button>,
+      <Button action="/2">Goblet</Button>,
+      <Button action="/3">Crown</Button>,
+      <Button action="/4">Amulet</Button>,
+      <Button action="/5">Cloak</Button>,
     ],
   });
 });
@@ -152,20 +151,19 @@ app.frame("/2", (c) => {
             display: "flex",
           }}
         >
-          The Tavern Keeper offers you a drink. "The Cleric is looking for
-          adventurers!"
+          The Tavern Keeper offers you a goblet. "An Amulet catches your eye!"
         </div>
       </div>
     ),
     intents: [
-      // <Button action="/finish" value="Tavern Keeper">
-      //   Join Me (Mint)
-      // </Button>,
+      <Button action="/finish" value="Goblet">
+        Join Me (Mint)
+      </Button>,
       <Button action="/6" value="Drink">
         Drink
       </Button>,
       <Button action="/4" value="Adventure">
-        Adventure
+        Amulet
       </Button>,
     ],
   });
@@ -212,15 +210,14 @@ app.frame("/3", (c) => {
             display: "flex",
           }}
         >
-          An Archer is perched on a stool. You admire their sleek bow and
-          arrows.
+          You try it on and the crown fits perfectly on your head.
         </div>
       </div>
     ),
     intents: [
-      // <Button action="/finish" value="Archer">
-      //   Join Me (Mint)
-      // </Button>,
+      <Button action="/finish" value="Crown">
+        Join Me (Mint)
+      </Button>,
       <Button.Link href="https://warpcast.com/~/channel/raidguild">
         Follow
       </Button.Link>,
@@ -270,14 +267,14 @@ app.frame("/4", (c) => {
             display: "flex",
           }}
         >
-          A Cleric is recruiting raiders to join in defeating Moloch's minions.
+          The amulet shimmers in the light and you feel a sense of power.
         </div>
       </div>
     ),
     intents: [
-      // <Button action="/finish" value="Cleric">
-      //   Join Me (Mint)
-      // </Button>,
+      <Button action="/finish" value="Amulet">
+        Join Me (Mint)
+      </Button>,
       <Button.Link href="https://www.raidguild.org/join/1">Raid</Button.Link>,
       <Button action="/7">Moloch</Button>,
     ],
@@ -325,14 +322,13 @@ app.frame("/5", (c) => {
             display: "flex",
           }}
         >
-          A Wizard is rifling through parchments with arcane script. Are these
-          spells?
+          You put on the cloak and feel a sense of mystery and adventure.
         </div>
       </div>
     ),
     intents: [
       <Button action="/9">Learn more</Button>,
-      <Button action="/3">Archer</Button>,
+      <Button action="/3">Crown</Button>,
       <Button action="/">Return</Button>,
     ],
   });
@@ -539,9 +535,9 @@ app.frame("/9", (c) => {
       </div>
     ),
     intents: [
-      // <Button action="/finish" value="Wizard">
-      //   Join Me (Mint)
-      // </Button>,
+      <Button action="/finish" value="Cloak">
+        Join Me (Mint)
+      </Button>,
       <Button.Link href="https://discord.com/invite/rGFpfQf">
         Battle!
       </Button.Link>,
@@ -554,16 +550,16 @@ app.frame("/finish", async (c) => {
   const { deriveState, buttonValue, frameData } = c;
   const { fid } = frameData;
 
-  const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
-  const res = await neynarClient.fetchBulkUsers([fid]);
+  // const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
+  // const res = await neynarClient.fetchBulkUsers([fid]);
 
   const state = deriveState((previousState) => {
     let _class = previousState.class;
     if (
-      buttonValue === "Tavern Keeper" ||
-      buttonValue === "Archer" ||
-      buttonValue === "Cleric" ||
-      buttonValue === "Wizard"
+      buttonValue === "Goblet" ||
+      buttonValue === "Crown" ||
+      buttonValue === "Amulet" ||
+      buttonValue === "Cloak"
     ) {
       previousState.class = buttonValue;
       _class = buttonValue;
@@ -571,30 +567,31 @@ app.frame("/finish", async (c) => {
 
     if (buttonValue !== "Address") {
       previousState.name =
-        CHARACTER_NAMES[_class][
-          Math.floor(Math.random() * CHARACTER_NAMES[_class].length)
+        ITEM_NAMES[_class][
+          Math.floor(Math.random() * ITEM_NAMES[_class].length)
         ];
     }
 
     if (buttonValue === "Address") {
-      if (
-        previousState.receivingAddressIndex - 1 <
-        res.users[0].verified_addresses.eth_addresses.length - 1
-      ) {
-        previousState.receivingAddressIndex++;
-      } else {
-        previousState.receivingAddressIndex = 0;
-      }
+      // if 
+      // (
+      //   previousState.receivingAddressIndex - 1 <
+      //   res.users[0].verified_addresses.eth_addresses.length - 1
+      // ) {
+      //   previousState.receivingAddressIndex++;
+      // } else {
+      //   previousState.receivingAddressIndex = 0;
+      // }
     }
 
-    if (previousState.receivingAddressIndex > 0) {
-      previousState.receivingAddress =
-        res.users[0].verified_addresses.eth_addresses[
-          previousState.receivingAddressIndex - 1
-        ];
-    } else {
-      previousState.receivingAddress = res.users[0].custody_address;
-    }
+    // if (previousState.receivingAddressIndex > 0) {
+    //   previousState.receivingAddress =
+    //     res.users[0].verified_addresses.eth_addresses[
+    //       previousState.receivingAddressIndex - 1
+    //     ];
+    // } else {
+    //   previousState.receivingAddress = res.users[0].custody_address;
+    // }
   });
 
   const client = createPublicClient({
@@ -671,7 +668,7 @@ app.frame("/finish", async (c) => {
             Hi {state.name}.
           </div>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            You're a{state.class === "Archer" ? "n" : ""} {state.class}
+            You're a{state.class === "Crown" ? "n" : ""} {state.class}
           </div>
           <div
             style={{
@@ -1350,323 +1347,68 @@ export const uriToHttp = (uri: string): string[] => {
 };
 
 const CLASSES_IMG_URI = {
-  "Tavern Keeper":
-    "ipfs://bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti",
-  Wizard: "ipfs://bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy",
-  Cleric: "ipfs://bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha",
-  Archer: "ipfs://bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724",
+  "Goblet":
+    "ipfs://bafkreic3",
+  Cloak: "ipfs://bafkrei",
+  Amulet: "ipfs://bafkrei",
+  Crown: "ipfs://bafkrei",
 };
 
-const CHARACTER_NAMES = {
-  "Tavern Keeper": [
-    "Gideon Tavernkeep",
-    "Hilda Stoutbrew",
-    "Luther Blackbarrel",
-    "Evangeline Meadwright",
-    "Thaddeus Caskkeeper",
-    "Gertrude Frothybrew",
-    "Reginald Ironflask",
-    "Matilda Barrelblossom",
-    "Barnaby Alequaffer",
-    "Prudence Winesoak",
-    "Horace Tankardtoss",
-    "Clementine Hopsworthy",
-    "Algernon Kegmaster",
-    "Esmeralda Stoutstirrer",
-    "Ignatius Barleyblend",
-    "Ophelia Brewbinder",
-    "Rupert Meadswiller",
-    "Winifred Steinshaper",
-    "Montgomery Hoptinker",
-    "Constance Sudslinger",
-    "Thelonious Beervat",
-    "Eloise Quenchwell",
-    "Ferdinand Lagerlash",
-    "Imogene Cidercrafter",
-    "Winston Brewster",
-    "Agatha Fermentress",
-    "Roderick Brewbottom",
-    "Millicent Aletapper",
-    "Bartholomew Caskbreaker",
-    "Dorothea Winepourer",
-    "Percival Stoutstrider",
-    "Adelaide Meadmaster",
-    "Reginald Barrelmender",
-    "Marigold Alebinder",
-    "Archibald Caskcarver",
-    "Cecilia Frothwhisper",
-    "Bartholomew Fermenter",
-    "Agnes Hoptapper",
-    "Fitzgerald Sudssmith",
-    "Philomena Mugslinger",
-    "Humphrey Winemaster",
-    "Euphemia Steinshaper",
-    "Reginald Hopsbrewer",
-    "Tabitha Aletender",
-    "Cornelius Stoutbelly",
-    "Wilhelmina Vinebinder",
-    "Percival Barleyfroth",
-    "Ophelia Meadmender",
-    "Barnaby Kegmender",
-    "Matilda Brewstirrer",
-    "Archibald Caskmaker",
-    "Edith Mugslinger",
-    "Rupert Steinmender",
-    "Winifred Hopwhisper",
-    "Ferdinand Sudsbrewer",
-    "Gertrude Barrelshaper",
-    "Thelonious Fermenter",
-    "Esmeralda Alebinder",
-    "Montgomery Meadcarver",
-    "Agatha Barrelmender",
-    "Reginald Hoptapper",
-    "Bartholomew Sudswhisper",
-    "Philomena Brewmaster",
-    "Percival Stoutmender",
-    "Adelaide Hopsbrewer",
-    "Cornelius Brewtapper",
-    "Wilhelmina Fermentress",
-    "Humphrey Caskmender",
-    "Euphemia Alewhisper",
+const ITEM_NAMES = {
+  Goblet: [
+    "Arcane Chalice",
+    "Enigma Ewer",
+    "Mystical Chalice",
+    "Celestial Goblet",
+    "Luminary Cup",
+    "Astral Vessel",
+    "Sorcerer's  Chalice",
+    "Phoenix Chalice",
+    "Ethereal Goblet",
   ],
 
-  Archer: [
-    "Faelan Archeron",
-    "Aria Swiftshot",
-    "Silas Emberarrow",
-    "Sylvan Windwhisper",
-    "Artemis Swiftshadow",
-    "Eldric Shadowstep",
-    "Lyra Nightshade",
-    "Thorn Swiftthorn",
-    "Sylas Silverwind",
-    "Raven Shadowswift",
-    "Caelum Hawkstrike",
-    "Elara Arrowheart",
-    "Alden Longshot",
-    "Rowan Raincaller",
-    "Sariel Starfall",
-    "Thalia Sunbow",
-    "Garrett Eagleeye",
-    "Niamh Wildwood",
-    "Dorian Moonshot",
-    "Iliad Forestwalker",
-    "Luna Shadowarrow",
-    "Tristan Sunseeker",
-    "Astrid Swiftsight",
-    "Fenrir Firebrand",
-    "Eris Windwalker",
-    "Thorn Oakenshot",
-    "Nova Stormwing",
-    "Cassian Starfury",
-    "Lysander Icearrow",
-    "Aurora Dawnstrike",
-    "Kieran Nightstalker",
-    "Briar Hawkeye",
-    "Elena Sunshadow",
-    "Orion Frostfire",
-    "Aurora Dawnarrow",
-    "Darius Blackfeather",
-    "Cassia Moonwhisper",
-    "Riven Silentarrow",
-    "Elowen Wildheart",
-    "Asher Shadowblade",
-    "Fiora Frostwind",
-    "Elden Swiftblade",
-    "Aurelia Starshot",
-    "Thorne Swiftstrike",
-    "Lyric Moonshade",
-    "Oriana Stormarrow",
-    "Dante Emberblade",
-    "Evangeline Frostfall",
-    "Felix Swiftwind",
-    "Celestia Starfrost",
-    "Kaelen Sunflare",
-    "Seraphina Nightfire",
-    "Aldric Shadowthorn",
-    "Soren Swiftarrow",
-    "Nyx Shadowwhisper",
-    "Rosalind Rainwhisper",
-    "Alden Sunshard",
-    "Thalia Swiftstrike",
-    "Galen Stormfury",
-    "Elara Emberstorm",
-    "Phoenix Firestride",
-    "Aria Moonshard",
-    "Kaelan Stormstrike",
-    "Rhiannon Skydancer",
-    "Evanthe Frostbloom",
-    "Cyrus Windchaser",
-    "Vesper Nightblade",
-    "Sasha Raincaller",
+  Crown: [
+    "Crown of Celestial Sovereignty",
+    "Diadem of Eternal Wisdom",
+    "Circlet of Arcane Dominion",
+    "Coronet of Elemental Ascendance",
+    "Tiara of Mystical Authority",
+    "Regalia of Astral Kingship",
+    "Crown of Ethereal Radiance",
+    "Diadem of Timeless Majesty",
+    "Circlet of Enchanted Dominion",
+    "Coronet of Sacred Harmony",
   ],
-  Cleric: [
-    "Eadric Lightbringer",
-    "Aurelia Divineheart",
-    "Cedric Soulforge",
-    "Elara Dawnblessed",
-    "Thalia Spiritcaller",
-    "Finnian Holyhammer",
-    "Seraphina Faithkeeper",
-    "Gwendolyn Sunseeker",
-    "Aldric Healinghand",
-    "Lysander Celestialbloom",
-    "Cassandra Moonwhisper",
-    "Benedict Sacredflame",
-    "Rosalind Dawnshaper",
-    "Evangeline Divinegrace",
-    "Dorian Lightbringer",
-    "Isolde Soulkeeper",
-    "Valeria Radiancecaller",
-    "Caius Holyheart",
-    "Ophelia Divinebearer",
-    "Galahad Sanctifiedsword",
-    "Elena Spiritforge",
-    "Aurora Divinehope",
-    "Hector Lightbringer",
-    "Rowan Celestialflame",
-    "Theodora Sunshaper",
-    "Faelan Dawnblessed",
-    "Aurelius Faithkeeper",
-    "Thorn Holyblade",
-    "Elowen Mooncaller",
-    "Alden Sunseeker",
-    "Serenity Divinegrace",
-    "Cassius Lightbearer",
-    "Elysia Spiritbinder",
-    "Luther Holyhammer",
-    "Evangeline Moonwhisper",
-    "Cyrus Lightbringer",
-    "Isolde Celestialkeeper",
-    "Thaddeus Radiancecaller",
-    "Gwendolyn Holyheart",
-    "Adelaide Divinebearer",
-    "Benedict Sanctifiedsoul",
-    "Rosalind Dawnkeeper",
-    "Eadric Spiritforge",
-    "Aurelia Divinehope",
-    "Cedric Lightbringer",
-    "Elara Soulkeeper",
-    "Thalia Holyhand",
-    "Finnian Celestialflame",
-    "Seraphina Sunshaper",
-    "Gwendolyn Divineblessed",
-    "Aldric Faithkeeper",
-    "Lysander Radiancecaller",
-    "Cassandra Divinegrace",
-    "Benedict Moonwhisper",
-    "Rosalind Lightbringer",
-    "Evangeline Celestialkeeper",
-    "Dorian Sunbearer",
-    "Isolde Holyblade",
-    "Valeria Mooncaller",
-    "Caius Divineflame",
-    "Ophelia Sunseeker",
-    "Galahad Lightbringer",
-    "Elena Celestialbinder",
-    "Aurora Soulforge",
-    "Hector Dawnkeeper",
-    "Rowan Radiancecaller",
-    "Theodora Lightbringer",
-    "Faelan Divinehope",
-    "Aurelius Spiritcaller",
-    "Thorn Holyflame",
-    "Elowen Celestialshaper",
-    "Alden Divineheart",
-    "Serenity Sanctifiedsoul",
-    "Cassius Holyblade",
-    "Elysia Radiancebearer",
-    "Luther Moonwhisper",
-    "Evangeline Holyhand",
+  Amulet: [
+    "Amulet of Eternal Vigilance",
+    "Talisman of Serenity",
+    "Charm of Arcane Protection",
+    "Pendant of Divine Harmony",
+    "Medallion of Elemental Resilience",
+    "Sigil of Astral Projection",
+    "Token of Celestial Guidance",
+    "Glyph of Shadow Warding",
+    "Emblem of Timeless Wisdom",
   ],
-  Wizard: [
-    "Seraphina Shadowdancer",
-    "Meridia Starwhisper",
-    "Elowyn Frostweaver",
-    "Miranda Moonshroud",
-    "Liora Stormshaper",
-    "Icarus Fireforge",
-    "Selene Frostbinder",
-    "Isabella Moonwhisper",
-    "Frost Whisperer Ilaria",
-    "Sorin Embercaster",
-    "Thaddeus Spellweaver",
-    "Aurelia Arcanemistress",
-    "Cedric Shadowcaster",
-    "Elara Frostweaver",
-    "Eadric Flamecaller",
-    "Valeria Nightwhisper",
-    "Gwendolyn Stormweaver",
-    "Aldric Frostfire",
-    "Cassandra Moonshaper",
-    "Caius Thunderweaver",
-    "Ophelia Starcaller",
-    "Galahad Spellbinder",
-    "Elena Frostwhisper",
-    "Aurora Shadowcaster",
-    "Hector Arcanemage",
-    "Rowan Stormbinder",
-    "Theodora Frostshaper",
-    "Faelan Moonweaver",
-    "Aurelius Firecaller",
-    "Thorn Nightwhisper",
-    "Elowen Stormweaver",
-    "Alden Frostflame",
-    "Serenity Spellmistress",
-    "Cassius Shadowweaver",
-    "Elysia Frostcaller",
-    "Luther Starshaper",
-    "Evangeline Thundercaster",
-    "Dorian Arcanist",
-    "Isolde Spellbinder",
-    "Valeria Moonweaver",
-    "Caius Frostcaller",
-    "Ophelia Shadowweaver",
-    "Galahad Arcanemist",
-    "Elena Moonshaper",
-    "Aurora Frostwhisper",
-    "Hector Shadowbinder",
-    "Rowan Arcanemage",
-    "Theodora Stormcaller",
-    "Faelan Spellweaver",
-    "Aurelius Nightshaper",
-    "Thorn Frostweaver",
-    "Elowen Shadowmistress",
-    "Alden Mooncaller",
-    "Serenity Thunderweaver",
-    "Cassius Starcaster",
-    "Elysia Frostwhisperer",
-    "Luther Arcanemage",
-    "Evangeline Spellshaper",
-    "Dorian Shadowcaller",
-    "Isolde Frostweaver",
-    "Valeria Moonwhisperer",
-    "Caius Starbinder",
-    "Ophelia Frostmistress",
-    "Galahad Thunderweaver",
-    "Elena Stormshaper",
-    "Aurora Frostcaster",
-    "Hector Spellbinder",
-    "Rowan Shadowmage",
-    "Theodora Frostwhisperer",
-    "Faelan Moonshaper",
-    "Aurelius Spellmistress",
-    "Thorn Frostweaver",
-    "Elowen Starshaper",
-    "Alden Arcanist",
-    "Serenity Shadowcaller",
-    "Cassius Frostweaver",
-    "Elysia Mooncaster",
-    "Luther Stormbinder",
-    "Evangeline Frostweaver",
+  Cloak: [
+    "Cloak of Ethereal Shadows",
+    "Mantle of Celestial Protection",
+    "Shroud of Mystical Veils",
+    "Veil of Arcane Concealment",
+    "Cape of Elemental Mastery",
+    "Robe of Astral Resonance",
+    "Cloak of Whispering Winds",
+    "Mantle of Eternal Frost",
+    "Shroud of Fiery Embers",
+    "Veil of Timeless Reflections",
   ],
 };
 
 const CLASS_DESCRIPTIONS = {
-  "Tavern Keeper": `Welcome to the Raid Guild tavern. If you're looking for adventure and battle, you've come to the right place. I can help you join a Raid Party.`,
-  Cleric: `I hear you're ready to join a Raid Party. Excellent! I am forming one to battle Moloch and we could use your skills.`,
-  Archer: `I raise my bow and see my target, Moloch! After I weaken the demon with design, the Raid Party then attacks with an advantage.`,
-  Wizard: `Smart Contracts are my wizardry! When I join a Raid Party, I attack Moloch with onchain powers and level up all my fellow Raiders.`,
+  Goblet: `The Goblet is a mystical vessel that holds the power of the arcane. It is said that the Goblet can summon the spirits of the dead and heal the living.`,
+  Amulet: `The Amulet is a powerful talisman that protects the wearer from harm and grants them the power of the divine. It is said that the Amulet can ward off evil spirits and heal the sick.`,
+  Crown: `The Crown is a symbol of celestial authority and wisdom. It is said that the Crown can grant the wearer the power of the gods and the knowledge of the ages.`,
+  Cloak: `The Cloak is a magical garment that grants the wearer the power of the elements and the ability to move unseen. It is said that the Cloak can protect the wearer from harm and grant them the power of the wind and the rain.`,
 };
 
 export const GET = handle(app);
