@@ -132,14 +132,13 @@ app.frame("/2", (c) => {
             justifyContent: "center",
             display: "flex",
             flexDirection: "column",
-            backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+            
+            height: "220px",
+            width: "220px",
           }}
-        />
+        >
+          <img height="220px" src="https://cloudflare-ipfs.com/ipfs/QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/goblet_withbg.png" />
+          </div>
         <div
           style={{
             color: "white",
@@ -189,16 +188,13 @@ app.frame("/3", (c) => {
             alignItems: "center",
             alignSelf: "center",
             justifyContent: "center",
+            height: "220px",
+            width: "220px",
             display: "flex",
-            flexDirection: "column",
-            backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
           }}
-        />
+        >
+          <img height="220px" src="https://cloudflare-ipfs.com/ipfs/QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/crown_withbg.png" />
+        </div>
         <div
           style={{
             color: "white",
@@ -248,14 +244,13 @@ app.frame("/4", (c) => {
             justifyContent: "center",
             display: "flex",
             flexDirection: "column",
-            backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
+            
+            height: "220px",
             width: "220px",
           }}
-        />
+        >
+          <img height="220px" src="https://cloudflare-ipfs.com/ipfs/QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/amulet_withbg.png" />
+          </div>
         <div
           style={{
             color: "white",
@@ -303,14 +298,13 @@ app.frame("/5", (c) => {
             justifyContent: "center",
             display: "flex",
             flexDirection: "column",
-            backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+            
+            height: "220px",
+            width: "220px",
           }}
-        />
+        >
+          <img height="220px" src="https://cloudflare-ipfs.com/ipfs/QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/cloak_withbg.png" />
+          </div>
         <div
           style={{
             color: "white",
@@ -510,14 +504,12 @@ app.frame("/9", (c) => {
             justifyContent: "center",
             display: "flex",
             flexDirection: "column",
-            backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+            height: "220px",
+            width: "220px",
           }}
-        />
+        >
+          <img height="220px" src="https://cloudflare-ipfs.com/ipfs/QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/cloak_withbg.png" />
+        </div>
         <div
           style={{
             color: "white",
@@ -529,8 +521,7 @@ app.frame("/9", (c) => {
             display: "flex",
           }}
         >
-          "I deal in the art of spellcraft, weaving together arcane tapestries
-          upon which we can build tools to defeat Moloch once and for all!"
+          "An arcane tapestry to defeat Moloch once and for all!"
         </div>
       </div>
     ),
@@ -568,7 +559,7 @@ app.frame("/finish", async (c) => {
     if (buttonValue !== "Address") {
       previousState.name =
         ITEM_NAMES[_class][
-          Math.floor(Math.random() * ITEM_NAMES[_class].length)
+        Math.floor(Math.random() * ITEM_NAMES[_class].length)
         ];
     }
 
@@ -909,8 +900,8 @@ app.frame("/status", async (c) => {
             {status === "pending"
               ? "Pending..."
               : status === "success"
-              ? "Success!"
-              : "Failed!"}
+                ? "Success!"
+                : "Failed!"}
           </div>
         </div>
       </div>
@@ -1347,11 +1338,10 @@ export const uriToHttp = (uri: string): string[] => {
 };
 
 const CLASSES_IMG_URI = {
-  "Goblet":
-    "ipfs://bafkreic3",
-  Cloak: "ipfs://bafkrei",
-  Amulet: "ipfs://bafkrei",
-  Crown: "ipfs://bafkrei",
+  Goblet: "ipfs://QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/goblet_withbg.png",
+  Cloak: "ipfs://QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/cloak_withbg.png",
+  Amulet: "ipfs://QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/amulet_withbg.png",
+  Crown: "ipfs://QmeFcH3ad8DJr5nCV8sFWWcaeFTfyAg8z7T5ewcLVALJxU/crown_withbg.png",
 };
 
 const ITEM_NAMES = {
