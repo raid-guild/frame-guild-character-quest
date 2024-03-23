@@ -363,7 +363,7 @@ app.frame("/6", (c) => {
             height: "250px",
             width: "160px",
           }}
-        />
+        ></div>
         <div
           style={{
             color: "white",
@@ -418,7 +418,7 @@ app.frame("/7", (c) => {
             height: "200px",
             width: "200px",
           }}
-        />
+        ></div>
         <div
           style={{
             color: "white",
@@ -565,7 +565,7 @@ app.frame("/10", (c) => {
             height: "200px",
             width: "200px",
           }}
-        />
+        ></div>
         <div
           style={{
             color: "white",
@@ -1108,7 +1108,7 @@ app.frame("/share/:id", async (c) => {
             height: "250px",
             width: "220px",
           }}
-        />
+        ></div>
         <div
           style={{
             alignItems: "flex-start",
@@ -1307,7 +1307,7 @@ app.frame("/id/:id", async (c) => {
             height: "250px",
             width: "220px",
           }}
-        />
+        ></div>
         <div
           style={{
             alignItems: "flex-start",
