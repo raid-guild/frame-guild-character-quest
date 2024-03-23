@@ -17,9 +17,6 @@ dependencies:
   hono:
     specifier: ^4
     version: 4.0.0
-  process:
-    specifier: ^0.11.10
-    version: 0.11.10
   viem:
     specifier: ^2.7.22
     version: 2.7.22(typescript@5.3.3)
@@ -2869,11 +2866,6 @@ packages:
 
   /printable-characters@1.0.42:
     resolution: {integrity: sha512-dKp+C4iXWK4vVYZmYSd0KBH5F/h1HoZRsbJ82AVKRO3PEo8L4lBS/vLwhVtpwwuYcoIsVY+1JYKR268yn480uQ==}
-    dev: false
-
-  /process@0.11.10:
-    resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
-    engines: {node: '>= 0.6.0'}
     dev: false
 
   /promisepipe@3.0.0:
