@@ -316,7 +316,7 @@ app.frame("/5", (c) => {
             display: "flex",
           }}
         >
-          You put on the cloak and feel a sense of mystery and adventure.
+          You put on the cloak and feel a sense of mystery and adventure. But maybe a crown instead?
         </div>
       </div>
     ),
@@ -430,8 +430,7 @@ app.frame("/7", (c) => {
             display: "flex",
           }}
         >
-          Moloch is the demon god of coordination failure, we fight him in
-          battle to free humanity!
+          Moloch growls. "What is this? Some kind of magic? Some kind of seeding of a meta game?"
         </div>
       </div>
     ),
@@ -439,7 +438,7 @@ app.frame("/7", (c) => {
       <Button.Link href="https://slatestarcodex.com/2014/07/30/meditations-on-moloch/">
         Battle!
       </Button.Link>,
-      <Button action="/">Return</Button>,
+      <Button action="/10">Learn More</Button>,
     ],
   });
 });
@@ -521,7 +520,7 @@ app.frame("/9", (c) => {
             display: "flex",
           }}
         >
-          "An arcane tapestry to defeat Moloch once and for all!"
+          "An arcane tapestry to defeat Moloch once and for all! Might look nice on a TBA."
         </div>
       </div>
     ),
@@ -531,6 +530,60 @@ app.frame("/9", (c) => {
       </Button>,
       <Button.Link href="https://discord.com/invite/rGFpfQf">
         Battle!
+      </Button.Link>,
+      <Button action="/">Return</Button>,
+    ],
+  });
+});
+
+app.frame("/10", (c) => {
+  return c.res({
+    title: "Enter the Tavern",
+    image: defaultContainer(
+      <div
+        style={{
+          alignItems: "center",
+          border: "6px solid #ff3864",
+          display: "flex",
+          height: "60%",
+          width: "90%",
+          padding: "0 120px",
+          gap: "40px",
+        }}
+      >
+        <div
+          style={{
+            alignItems: "center",
+            alignSelf: "center",
+            justifyContent: "center",
+            display: "flex",
+            flexDirection: "column",
+            backgroundImage:
+              "url(https://cloudflare-ipfs.com/ipfs/QmQMX3YhhtV5rpKVYyqsP1MHFV4MzuMtKrUGEqhEC75HrY)",
+            backgroundSize: "200px 200px",
+            backgroundRepeat: "no-repeat",
+            height: "200px",
+            width: "200px",
+          }}
+        />
+        <div
+          style={{
+            color: "white",
+            fontSize: 42,
+            fontStyle: "normal",
+            letterSpacing: "-0.025em",
+            lineHeight: 1.4,
+            whiteSpace: "pre-wrap",
+            display: "flex",
+          }}
+        >
+          Moloch growls more. "What is this all leading too? A grand adventure? In game currency? A DAO? Character Sheets?"
+        </div>
+      </div>
+    ),
+    intents: [
+      <Button.Link href="https://silohaus.github.io/silo-nft-dao-admin/#/molochv3/0x2105/0x74dc5fcd49b865db3e5038f11f358b211c1c1365/activate">
+        Activate!
       </Button.Link>,
       <Button action="/">Return</Button>,
     ],
