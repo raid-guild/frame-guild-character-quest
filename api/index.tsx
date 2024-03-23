@@ -23,7 +23,7 @@ const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS as `0x${string}`;
 export const app = new Frog({
   assetsPath: "/",
   basePath: "/api",
-  // browserLocation: "/",
+  browserLocation: "/",
   secret: process.env.SECRET,
   initialState: {
     class: "",
@@ -33,7 +33,7 @@ export const app = new Frog({
     receivingAddressIndex: 0,
   },
   verify: "silent",
-  // hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
+  hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
 const defaultContainer = (children: JSX.Element) => (
@@ -594,8 +594,8 @@ app.frame("/finish", async (c) => {
   const { deriveState, buttonValue, frameData } = c;
   const { fid } = frameData;
 
-  // const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
-  // const res = await neynarClient.fetchBulkUsers([fid]);
+  const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
+  const res = await neynarClient.fetchBulkUsers([fid]);
 
   const state = deriveState((previousState) => {
     let _class = previousState.class;
@@ -617,25 +617,25 @@ app.frame("/finish", async (c) => {
     }
 
     if (buttonValue === "Address") {
-      // if 
-      // (
-      //   previousState.receivingAddressIndex - 1 <
-      //   res.users[0].verified_addresses.eth_addresses.length - 1
-      // ) {
-      //   previousState.receivingAddressIndex++;
-      // } else {
-      //   previousState.receivingAddressIndex = 0;
-      // }
+      if 
+      (
+        previousState.receivingAddressIndex - 1 <
+        res.users[0].verified_addresses.eth_addresses.length - 1
+      ) {
+        previousState.receivingAddressIndex++;
+      } else {
+        previousState.receivingAddressIndex = 0;
+      }
     }
 
-    // if (previousState.receivingAddressIndex > 0) {
-    //   previousState.receivingAddress =
-    //     res.users[0].verified_addresses.eth_addresses[
-    //       previousState.receivingAddressIndex - 1
-    //     ];
-    // } else {
-    //   previousState.receivingAddress = res.users[0].custody_address;
-    // }
+    if (previousState.receivingAddressIndex > 0) {
+      previousState.receivingAddress =
+        res.users[0].verified_addresses.eth_addresses[
+          previousState.receivingAddressIndex - 1
+        ];
+    } else {
+      previousState.receivingAddress = res.users[0].custody_address;
+    }
   });
 
   const client = createPublicClient({
