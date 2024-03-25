@@ -762,16 +762,16 @@ app.frame("/mint", async (c) => {
         {
           inputs: [
             { internalType: "address", name: "to", type: "address" },
-            { internalType: "string", name: "characterName", type: "string" },
+            { internalType: "string", name: "itemName", type: "string" },
             {
               internalType: "string",
-              name: "characterDescription",
+              name: "itemDescription",
               type: "string",
             },
-            { internalType: "string", name: "characterClass", type: "string" },
+            { internalType: "string", name: "itemClass", type: "string" },
             {
               internalType: "string",
-              name: "characterImageUri",
+              name: "itemImageUri",
               type: "string",
             },
           ],

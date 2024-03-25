@@ -206,27 +206,6 @@
     "type": "function"
   },
   {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "characterMetas",
-    "outputs": [
-      { "internalType": "string", "name": "characterName", "type": "string" },
-      {
-        "internalType": "string",
-        "name": "characterDescription",
-        "type": "string"
-      },
-      { "internalType": "string", "name": "characterClass", "type": "string" },
-      {
-        "internalType": "string",
-        "name": "characterImageUri",
-        "type": "string"
-      },
-      { "internalType": "address", "name": "initialOwner", "type": "address" }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "name": "claims",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -249,6 +228,19 @@
     ],
     "name": "isApprovedForAll",
     "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "itemMetas",
+    "outputs": [
+      { "internalType": "string", "name": "itemName", "type": "string" },
+      { "internalType": "string", "name": "itemDescription", "type": "string" },
+      { "internalType": "string", "name": "itemClass", "type": "string" },
+      { "internalType": "string", "name": "itemImageUri", "type": "string" },
+      { "internalType": "address", "name": "initialOwner", "type": "address" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -285,18 +277,10 @@
   {
     "inputs": [
       { "internalType": "address", "name": "to", "type": "address" },
-      { "internalType": "string", "name": "characterName", "type": "string" },
-      {
-        "internalType": "string",
-        "name": "characterDescription",
-        "type": "string"
-      },
-      { "internalType": "string", "name": "characterClass", "type": "string" },
-      {
-        "internalType": "string",
-        "name": "characterImageUri",
-        "type": "string"
-      }
+      { "internalType": "string", "name": "itemName", "type": "string" },
+      { "internalType": "string", "name": "itemDescription", "type": "string" },
+      { "internalType": "string", "name": "itemClass", "type": "string" },
+      { "internalType": "string", "name": "itemImageUri", "type": "string" }
     ],
     "name": "safeMint",
     "outputs": [],
