@@ -709,10 +709,10 @@ app.frame("/finish", async (c) => {
               justifyContent: "center",
             }}
           >
-            Hi {state.name}.
+            You have unearthed a{state.class === "Amulet" ? "n" : ""} {state.class}.
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            You're a{state.class === "Crown" ? "n" : ""} {state.class}
+          <div style={{ display: "flex", justifyContent: "center", fontWeight: "bold"}}>
+            {state.name}
           </div>
           <div
             style={{
