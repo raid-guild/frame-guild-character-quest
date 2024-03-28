@@ -672,7 +672,7 @@ app.frame("/finish", async (c) => {
   if (!cannotMint) {
     intents.unshift(
       <Button value="apple" action="/mint">
-        Mint Character
+        Mint Item
       </Button>
     );
   }
@@ -822,7 +822,7 @@ app.frame("/mint", async (c) => {
             width: "100%",
           }}
         >
-          Minting your character...
+          Minting your item...
         </div>
       </div>
     ),
@@ -914,7 +914,7 @@ app.frame("/status", async (c) => {
   ];
 
   const successIntents = [
-    <Button action={`/share/${tokenId}`}>View Character</Button>,
+    <Button action={`/share/${tokenId}`}>View Item</Button>,
     <Button.Link href={`${process.env.ETHERSCAN_URL}/tx/${buttonValue}`}>
       View on Etherscan
     </Button.Link>,
@@ -1012,23 +1012,23 @@ app.frame("/share/:id", async (c) => {
   let classType = "";
 
   try {
-    const characterMetas = await client.readContract({
+    const itemMetas = await client.readContract({
       address: NFT_CONTRACT_ADDRESS,
       abi: [
         {
           inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-          name: "characterMetas",
+          name: "itemMetas",
           outputs: [
-            { internalType: "string", name: "characterName", type: "string" },
+            { internalType: "string", name: "itemName", type: "string" },
             {
               internalType: "string",
-              name: "characterDescription",
+              name: "itemDescription",
               type: "string",
             },
-            { internalType: "string", name: "characterClass", type: "string" },
+            { internalType: "string", name: "itemClass", type: "string" },
             {
               internalType: "string",
-              name: "characterImageUri",
+              name: "itemImageUri",
               type: "string",
             },
             { internalType: "address", name: "initialOwner", type: "address" },
@@ -1037,11 +1037,11 @@ app.frame("/share/:id", async (c) => {
           type: "function",
         },
       ],
-      functionName: "characterMetas",
+      functionName: "itemMetas",
       args: [BigInt(tokenId)],
     });
 
-    [name, description, classType, imageUri] = characterMetas;
+    [name, description, classType, imageUri] = itemMetas;
   } catch (e) {
     console.error(e);
   }
@@ -1147,6 +1147,7 @@ app.frame("/share/:id", async (c) => {
         </div>
       </div>
     ),
+    // TODO: should this change to a new url for items?
     intents: [
       <Button.Link
         href={`https://warpcast.com/~/compose?text=Enter%20the%20Tavern%20by%20%40raidguild&embeds[]=https://frame-guild-character-quest.vercel.app/api/id/${tokenId}`}
@@ -1211,23 +1212,23 @@ app.frame("/id/:id", async (c) => {
   let classType = "";
 
   try {
-    const characterMetas = await client.readContract({
+    const itemMetas = await client.readContract({
       address: NFT_CONTRACT_ADDRESS,
       abi: [
         {
           inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-          name: "characterMetas",
+          name: "itemMetas",
           outputs: [
-            { internalType: "string", name: "characterName", type: "string" },
+            { internalType: "string", name: "itemName", type: "string" },
             {
               internalType: "string",
-              name: "characterDescription",
+              name: "itemDescription",
               type: "string",
             },
-            { internalType: "string", name: "characterClass", type: "string" },
+            { internalType: "string", name: "itemClass", type: "string" },
             {
               internalType: "string",
-              name: "characterImageUri",
+              name: "itemImageUri",
               type: "string",
             },
             { internalType: "address", name: "initialOwner", type: "address" },
@@ -1236,11 +1237,11 @@ app.frame("/id/:id", async (c) => {
           type: "function",
         },
       ],
-      functionName: "characterMetas",
+      functionName: "itemMetas",
       args: [BigInt(tokenId)],
     });
 
-    [name, description, classType, imageUri] = characterMetas;
+    [name, description, classType, imageUri] = itemMetas;
   } catch (e) {
     console.error(e);
   }
@@ -1347,7 +1348,7 @@ app.frame("/id/:id", async (c) => {
       </div>
     ),
     intents: [
-      <Button action="/">Mint your own character!</Button>,
+      <Button action="/">Mint your own item!</Button>,
       <Button.Link
         href={`${process.env.OPENSEA_URL}/${NFT_CONTRACT_ADDRESS}/${tokenId}`}
       >
