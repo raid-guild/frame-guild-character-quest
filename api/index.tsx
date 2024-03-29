@@ -1,17 +1,19 @@
-import { Button, Frog } from "frog";
-import "dotenv/config";
-import { neynar } from "frog/hubs";
-import { NeynarAPIClient } from "@neynar/nodejs-sdk";
-import { handle } from "frog/vercel";
+import { devtools } from 'frog/dev';
+import { serveStatic } from 'frog/serve-static';
+import { Button, Frog } from 'frog';
+import 'dotenv/config';
+import { neynar } from 'frog/hubs';
+import { NeynarAPIClient } from '@neynar/nodejs-sdk';
+import { handle } from 'frog/vercel';
 import {
   createPublicClient,
   createWalletClient,
   http,
   parseEventLogs,
   parseAbi,
-} from "viem";
-import { base } from "viem/chains";
-import { privateKeyToAccount } from "viem/accounts";
+} from 'viem';
+import { base } from 'viem/chains';
+import { privateKeyToAccount } from 'viem/accounts';
 
 // Uncomment to use Edge Runtime.
 // export const config = {
@@ -21,65 +23,65 @@ import { privateKeyToAccount } from "viem/accounts";
 const NFT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ADDRESS as `0x${string}`;
 
 export const app = new Frog({
-  assetsPath: "/",
-  basePath: "/api",
-  browserLocation: "/",
+  assetsPath: '/',
+  basePath: '/api',
+  browserLocation: '/',
   secret: process.env.SECRET,
   initialState: {
-    class: "",
+    class: '',
     drinkCount: 0,
-    name: "",
-    receivingAddress: "",
+    name: '',
+    receivingAddress: '',
     receivingAddressIndex: 0,
   },
-  verify: "silent",
+  verify: 'silent',
   hub: neynar({ apiKey: process.env.NEYNAR_API_KEY }),
 });
 
 const defaultContainer = (children: JSX.Element) => (
   <div
     style={{
-      alignItems: "center",
-      background: "black",
-      backgroundSize: "100% 100%",
-      display: "flex",
-      flexDirection: "column",
-      flexWrap: "nowrap",
-      height: "100%",
-      justifyContent: "center",
-      textAlign: "center",
-      width: "100%",
+      alignItems: 'center',
+      background: 'black',
+      backgroundSize: '100% 100%',
+      display: 'flex',
+      flexDirection: 'column',
+      flexWrap: 'nowrap',
+      height: '100%',
+      justifyContent: 'center',
+      textAlign: 'center',
+      width: '100%',
     }}
   >
     {children}
   </div>
 );
 
-app.frame("/", (c) => {
+app.frame('/', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          justifyContent: "center",
-          display: "flex",
-          flexDirection: "column",
-          height: "60%",
-          width: "90%",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          justifyContent: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          height: '60%',
+          width: '90%',
         }}
       >
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 38,
-            fontStyle: "normal",
-            fontFamily: "Times",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            fontFamily: 'Times',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            padding: "0 80px",
-            whiteSpace: "pre-wrap",
+            padding: '0 80px',
+            whiteSpace: 'pre-wrap',
           }}
         >
           You find yourself in a tavern, you see several colorful characters
@@ -87,15 +89,15 @@ app.frame("/", (c) => {
         </div>
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 32,
-            fontStyle: "normal",
-            fontFamily: "Times",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            fontFamily: 'Times',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
-            marginTop: "40px",
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+            marginTop: '40px',
           }}
         >
           (Minting is over, but you can still peruse the tavern.)
@@ -111,45 +113,45 @@ app.frame("/", (c) => {
   });
 });
 
-app.frame("/2", (c) => {
+app.frame('/2', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          padding: "0 120px",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          padding: '0 120px',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+              'url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '160px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           The Tavern Keeper offers you a drink. "The Cleric is looking for
@@ -171,45 +173,45 @@ app.frame("/2", (c) => {
   });
 });
 
-app.frame("/3", (c) => {
+app.frame('/3', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          padding: "0 120px",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          padding: '0 120px',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+              'url(https://cloudflare-ipfs.com/ipfs/bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '160px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           An Archer is perched on a stool. You admire their sleek bow and
@@ -229,45 +231,45 @@ app.frame("/3", (c) => {
   });
 });
 
-app.frame("/4", (c) => {
+app.frame('/4', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          padding: "0 120px",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          padding: '0 120px',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "220px",
+              'url(https://cloudflare-ipfs.com/ipfs/bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '220px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           A Cleric is recruiting raiders to join in defeating Moloch's minions.
@@ -284,45 +286,45 @@ app.frame("/4", (c) => {
   });
 });
 
-app.frame("/5", (c) => {
+app.frame('/5', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          padding: "0 120px",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          padding: '0 120px',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+              'url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '160px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           A Wizard is rifling through parchments with arcane script. Are these
@@ -338,51 +340,51 @@ app.frame("/5", (c) => {
   });
 });
 
-app.frame("/6", (c) => {
+app.frame('/6', c => {
   const { buttonValue, deriveState } = c;
 
-  const state = deriveState((previousState) => {
-    if (buttonValue === "Drink") previousState.drinkCount++;
+  const state = deriveState(previousState => {
+    if (buttonValue === 'Drink') previousState.drinkCount++;
   });
 
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          padding: "0 120px",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          padding: '0 120px',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+              'url(https://cloudflare-ipfs.com/ipfs/bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '160px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 44,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           The Tavern Keeper gives you a drink, you enjoy it and feel a little
@@ -391,7 +393,7 @@ app.frame("/6", (c) => {
       </div>
     ),
     intents: [
-      <Button action={state.drinkCount === 5 ? "/8" : "/6"} value="Drink">
+      <Button action={state.drinkCount === 5 ? '/8' : '/6'} value="Drink">
         Drink More
       </Button>,
       <Button action="/">Return</Button>,
@@ -399,45 +401,45 @@ app.frame("/6", (c) => {
   });
 });
 
-app.frame("/7", (c) => {
+app.frame('/7', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          padding: "0 120px",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          padding: '0 120px',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/QmQMX3YhhtV5rpKVYyqsP1MHFV4MzuMtKrUGEqhEC75HrY)",
-            backgroundSize: "200px 200px",
-            backgroundRepeat: "no-repeat",
-            height: "200px",
-            width: "200px",
+              'url(https://cloudflare-ipfs.com/ipfs/QmQMX3YhhtV5rpKVYyqsP1MHFV4MzuMtKrUGEqhEC75HrY)',
+            backgroundSize: '200px 200px',
+            backgroundRepeat: 'no-repeat',
+            height: '200px',
+            width: '200px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 42,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           Moloch is the demon god of coordination failure, we fight him in
@@ -454,31 +456,31 @@ app.frame("/7", (c) => {
   });
 });
 
-app.frame("/8", (c) => {
+app.frame('/8', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
         }}
       >
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
           }}
         >
           You're drunk.
@@ -492,45 +494,45 @@ app.frame("/8", (c) => {
   });
 });
 
-app.frame("/9", (c) => {
+app.frame('/9', c => {
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
-          padding: "0 120px",
-          gap: "40px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
+          padding: '0 120px',
+          gap: '40px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage:
-              "url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)",
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "160px",
+              'url(https://cloudflare-ipfs.com/ipfs/bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy)',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '160px',
           }}
         />
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 36,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
           }}
         >
           "I deal in the art of spellcraft, weaving together arcane tapestries
@@ -550,33 +552,33 @@ app.frame("/9", (c) => {
   });
 });
 
-app.frame("/finish", async (c) => {
+app.frame('/finish', async c => {
   const { deriveState, buttonValue, frameData } = c;
   const { fid } = frameData;
 
   const neynarClient = new NeynarAPIClient(process.env.NEYNAR_API_KEY);
   const res = await neynarClient.fetchBulkUsers([fid]);
 
-  const state = deriveState((previousState) => {
+  const state = deriveState(previousState => {
     let _class = previousState.class;
     if (
-      buttonValue === "Tavern Keeper" ||
-      buttonValue === "Archer" ||
-      buttonValue === "Cleric" ||
-      buttonValue === "Wizard"
+      buttonValue === 'Tavern Keeper' ||
+      buttonValue === 'Archer' ||
+      buttonValue === 'Cleric' ||
+      buttonValue === 'Wizard'
     ) {
       previousState.class = buttonValue;
       _class = buttonValue;
     }
 
-    if (buttonValue !== "Address") {
+    if (buttonValue !== 'Address') {
       previousState.name =
         CHARACTER_NAMES[_class][
           Math.floor(Math.random() * CHARACTER_NAMES[_class].length)
         ];
     }
 
-    if (buttonValue === "Address") {
+    if (buttonValue === 'Address') {
       if (
         previousState.receivingAddressIndex - 1 <
         res.users[0].verified_addresses.eth_addresses.length - 1
@@ -606,14 +608,14 @@ app.frame("/finish", async (c) => {
     address: NFT_CONTRACT_ADDRESS,
     abi: [
       {
-        inputs: [{ internalType: "address", name: "owner", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
+        inputs: [{ internalType: 'address', name: 'owner', type: 'address' }],
+        name: 'balanceOf',
+        outputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+        stateMutability: 'view',
+        type: 'function',
       },
     ],
-    functionName: "balanceOf",
+    functionName: 'balanceOf',
     args: [state.receivingAddress as `0x${string}`],
   });
 
@@ -637,61 +639,61 @@ app.frame("/finish", async (c) => {
   }
 
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
         }}
       >
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            justifyContent: "center",
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
-            display: "flex",
-            flexDirection: "column",
+            justifyContent: 'center',
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
             Hi {state.name}.
           </div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            You're a{state.class === "Archer" ? "n" : ""} {state.class}
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            You're a{state.class === 'Archer' ? 'n' : ''} {state.class}
           </div>
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               fontSize: 32,
-              justifyContent: "center",
+              justifyContent: 'center',
             }}
           >
             Minting to {state.receivingAddress}
           </div>
           <div
             style={{
-              display: "flex",
+              display: 'flex',
               fontSize: 32,
-              justifyContent: "center",
+              justifyContent: 'center',
             }}
           >
             {cannotMint
-              ? "(Cannot mint. This address already has a balance of 1.)"
-              : ""}
+              ? '(Cannot mint. This address already has a balance of 1.)'
+              : ''}
           </div>
         </div>
       </div>
@@ -700,7 +702,7 @@ app.frame("/finish", async (c) => {
   });
 });
 
-app.frame("/mint", async (c) => {
+app.frame('/mint', async c => {
   const nftOwnerPrivateKey = process.env.NFT_OWNER_PRIVATE_KEY;
 
   const { previousState } = c;
@@ -713,34 +715,34 @@ app.frame("/mint", async (c) => {
     transport: http(),
   });
 
-  let txHash = "";
+  let txHash = '';
   try {
     txHash = await client.writeContract({
       address: NFT_CONTRACT_ADDRESS,
       abi: [
         {
           inputs: [
-            { internalType: "address", name: "to", type: "address" },
-            { internalType: "string", name: "characterName", type: "string" },
+            { internalType: 'address', name: 'to', type: 'address' },
+            { internalType: 'string', name: 'characterName', type: 'string' },
             {
-              internalType: "string",
-              name: "characterDescription",
-              type: "string",
+              internalType: 'string',
+              name: 'characterDescription',
+              type: 'string',
             },
-            { internalType: "string", name: "characterClass", type: "string" },
+            { internalType: 'string', name: 'characterClass', type: 'string' },
             {
-              internalType: "string",
-              name: "characterImageUri",
-              type: "string",
+              internalType: 'string',
+              name: 'characterImageUri',
+              type: 'string',
             },
           ],
-          name: "safeMint",
+          name: 'safeMint',
           outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
+          stateMutability: 'nonpayable',
+          type: 'function',
         },
       ],
-      functionName: "safeMint",
+      functionName: 'safeMint',
       account,
       chain: base,
       args: [
@@ -756,29 +758,29 @@ app.frame("/mint", async (c) => {
   }
 
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
         }}
       >
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
-            display: "flex",
-            justifyContent: "center",
-            width: "100%",
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
           }}
         >
           Minting your character...
@@ -793,15 +795,15 @@ app.frame("/mint", async (c) => {
   });
 });
 
-app.frame("/status", async (c) => {
+app.frame('/status', async c => {
   const { buttonValue } = c;
   const client = createPublicClient({
     chain: base,
     transport: http(),
   });
 
-  let status = "pending";
-  let tokenId = "";
+  let status = 'pending';
+  let tokenId = '';
 
   try {
     const txReceipt = await client.getTransactionReceipt({
@@ -809,14 +811,14 @@ app.frame("/status", async (c) => {
     });
     status = txReceipt.status;
 
-    if (status === "success") {
+    if (status === 'success') {
       const logs = [txReceipt.logs[0]];
       const decodedLogs = parseEventLogs({
         abi: parseAbi([
-          "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
+          'event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)',
         ]),
         logs,
-        eventName: "Transfer",
+        eventName: 'Transfer',
       });
 
       if (decodedLogs.length > 0) {
@@ -830,29 +832,29 @@ app.frame("/status", async (c) => {
 
   if (!buttonValue) {
     return c.res({
-      title: "Enter the Tavern",
+      title: 'Enter the Tavern',
       image: defaultContainer(
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
-            display: "flex",
-            height: "60%",
-            width: "90%",
+            alignItems: 'center',
+            border: '6px solid #ff3864',
+            display: 'flex',
+            height: '60%',
+            width: '90%',
           }}
         >
           <div
             style={{
-              color: "white",
+              color: 'white',
               fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
               lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
             }}
           >
             An error occurred.
@@ -880,76 +882,76 @@ app.frame("/status", async (c) => {
   ];
 
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "60%",
-          width: "90%",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '60%',
+          width: '90%',
         }}
       >
         <div
           style={{
-            color: "white",
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            justifyContent: "center",
-            padding: "0 120px",
-            whiteSpace: "pre-wrap",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "100%",
+            justifyContent: 'center',
+            padding: '0 120px',
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            width: '100%',
           }}
         >
-          <div style={{ display: "flex" }}>Checking transaction status...</div>
-          <div style={{ display: "flex" }}>
-            {status === "pending"
-              ? "Pending..."
-              : status === "success"
-              ? "Success!"
-              : "Failed!"}
+          <div style={{ display: 'flex' }}>Checking transaction status...</div>
+          <div style={{ display: 'flex' }}>
+            {status === 'pending'
+              ? 'Pending...'
+              : status === 'success'
+              ? 'Success!'
+              : 'Failed!'}
           </div>
         </div>
       </div>
     ),
-    intents: status === "success" && tokenId ? successIntents : pendingIntents,
+    intents: status === 'success' && tokenId ? successIntents : pendingIntents,
   });
 });
 
-app.frame("/share/:id", async (c) => {
-  const tokenId = c.req.param("id");
+app.frame('/share/:id', async c => {
+  const tokenId = c.req.param('id');
 
   if (!tokenId) {
     return c.res({
-      title: "Enter the Tavern",
+      title: 'Enter the Tavern',
       image: defaultContainer(
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
-            display: "flex",
-            height: "60%",
-            width: "90%",
+            alignItems: 'center',
+            border: '6px solid #ff3864',
+            display: 'flex',
+            height: '60%',
+            width: '90%',
           }}
         >
           <div
             style={{
-              color: "white",
+              color: 'white',
               fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
               lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
             }}
           >
             An error occurred.
@@ -965,38 +967,38 @@ app.frame("/share/:id", async (c) => {
     transport: http(),
   });
 
-  let name = "";
-  let description = "";
-  let imageUri = "";
-  let classType = "";
+  let name = '';
+  let description = '';
+  let imageUri = '';
+  let classType = '';
 
   try {
     const characterMetas = await client.readContract({
       address: NFT_CONTRACT_ADDRESS,
       abi: [
         {
-          inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-          name: "characterMetas",
+          inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          name: 'characterMetas',
           outputs: [
-            { internalType: "string", name: "characterName", type: "string" },
+            { internalType: 'string', name: 'characterName', type: 'string' },
             {
-              internalType: "string",
-              name: "characterDescription",
-              type: "string",
+              internalType: 'string',
+              name: 'characterDescription',
+              type: 'string',
             },
-            { internalType: "string", name: "characterClass", type: "string" },
+            { internalType: 'string', name: 'characterClass', type: 'string' },
             {
-              internalType: "string",
-              name: "characterImageUri",
-              type: "string",
+              internalType: 'string',
+              name: 'characterImageUri',
+              type: 'string',
             },
-            { internalType: "address", name: "initialOwner", type: "address" },
+            { internalType: 'address', name: 'initialOwner', type: 'address' },
           ],
-          stateMutability: "view",
-          type: "function",
+          stateMutability: 'view',
+          type: 'function',
         },
       ],
-      functionName: "characterMetas",
+      functionName: 'characterMetas',
       args: [BigInt(tokenId)],
     });
 
@@ -1007,29 +1009,29 @@ app.frame("/share/:id", async (c) => {
 
   if (!(name && description && classType && imageUri)) {
     return c.res({
-      title: "Enter the Tavern",
+      title: 'Enter the Tavern',
       image: defaultContainer(
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
-            display: "flex",
-            height: "60%",
-            width: "90%",
+            alignItems: 'center',
+            border: '6px solid #ff3864',
+            display: 'flex',
+            height: '60%',
+            width: '90%',
           }}
         >
           <div
             style={{
-              color: "white",
+              color: 'white',
               fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
               lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
             }}
           >
             NFT does not exist.
@@ -1041,64 +1043,64 @@ app.frame("/share/:id", async (c) => {
   }
 
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "80%",
-          width: "90%",
-          padding: "0 60px",
-          gap: "60px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '80%',
+          width: '90%',
+          padding: '0 60px',
+          gap: '60px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage: `url(${uriToHttp(imageUri)[0]})`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "220px",
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '220px',
           }}
         />
         <div
           style={{
-            alignItems: "flex-start",
-            color: "white",
+            alignItems: 'flex-start',
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
           }}
         >
-          <div style={{ display: "flex", textAlign: "left" }}>{name}</div>
+          <div style={{ display: 'flex', textAlign: 'left' }}>{name}</div>
           <div
             style={{
-              display: "flex",
-              textAlign: "left",
+              display: 'flex',
+              textAlign: 'left',
               fontSize: 32,
             }}
           >
             Class: {classType}
           </div>
-          <div style={{ display: "flex" }}>---</div>
+          <div style={{ display: 'flex' }}>---</div>
           <div
             style={{
-              display: "flex",
-              textAlign: "left",
+              display: 'flex',
+              textAlign: 'left',
               fontSize: 32,
-              width: "700px",
+              width: '700px',
             }}
           >
             "{description}"
@@ -1121,34 +1123,34 @@ app.frame("/share/:id", async (c) => {
   });
 });
 
-app.frame("/id/:id", async (c) => {
-  const tokenId = c.req.param("id");
+app.frame('/id/:id', async c => {
+  const tokenId = c.req.param('id');
 
   if (!tokenId) {
     return c.res({
-      title: "Enter the Tavern",
+      title: 'Enter the Tavern',
       image: defaultContainer(
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
-            display: "flex",
-            height: "60%",
-            width: "90%",
+            alignItems: 'center',
+            border: '6px solid #ff3864',
+            display: 'flex',
+            height: '60%',
+            width: '90%',
           }}
         >
           <div
             style={{
-              color: "white",
+              color: 'white',
               fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
               lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
             }}
           >
             An error occurred.
@@ -1164,38 +1166,38 @@ app.frame("/id/:id", async (c) => {
     transport: http(),
   });
 
-  let name = "";
-  let description = "";
-  let imageUri = "";
-  let classType = "";
+  let name = '';
+  let description = '';
+  let imageUri = '';
+  let classType = '';
 
   try {
     const characterMetas = await client.readContract({
       address: NFT_CONTRACT_ADDRESS,
       abi: [
         {
-          inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-          name: "characterMetas",
+          inputs: [{ internalType: 'uint256', name: '', type: 'uint256' }],
+          name: 'characterMetas',
           outputs: [
-            { internalType: "string", name: "characterName", type: "string" },
+            { internalType: 'string', name: 'characterName', type: 'string' },
             {
-              internalType: "string",
-              name: "characterDescription",
-              type: "string",
+              internalType: 'string',
+              name: 'characterDescription',
+              type: 'string',
             },
-            { internalType: "string", name: "characterClass", type: "string" },
+            { internalType: 'string', name: 'characterClass', type: 'string' },
             {
-              internalType: "string",
-              name: "characterImageUri",
-              type: "string",
+              internalType: 'string',
+              name: 'characterImageUri',
+              type: 'string',
             },
-            { internalType: "address", name: "initialOwner", type: "address" },
+            { internalType: 'address', name: 'initialOwner', type: 'address' },
           ],
-          stateMutability: "view",
-          type: "function",
+          stateMutability: 'view',
+          type: 'function',
         },
       ],
-      functionName: "characterMetas",
+      functionName: 'characterMetas',
       args: [BigInt(tokenId)],
     });
 
@@ -1206,29 +1208,29 @@ app.frame("/id/:id", async (c) => {
 
   if (!(name && description && classType && imageUri)) {
     return c.res({
-      title: "Enter the Tavern",
+      title: 'Enter the Tavern',
       image: defaultContainer(
         <div
           style={{
-            alignItems: "center",
-            border: "6px solid #ff3864",
-            display: "flex",
-            height: "60%",
-            width: "90%",
+            alignItems: 'center',
+            border: '6px solid #ff3864',
+            display: 'flex',
+            height: '60%',
+            width: '90%',
           }}
         >
           <div
             style={{
-              color: "white",
+              color: 'white',
               fontSize: 48,
-              fontStyle: "normal",
-              letterSpacing: "-0.025em",
+              fontStyle: 'normal',
+              letterSpacing: '-0.025em',
               lineHeight: 1.4,
-              padding: "0 120px",
-              whiteSpace: "pre-wrap",
-              display: "flex",
-              justifyContent: "center",
-              width: "100%",
+              padding: '0 120px',
+              whiteSpace: 'pre-wrap',
+              display: 'flex',
+              justifyContent: 'center',
+              width: '100%',
             }}
           >
             NFT does not exist.
@@ -1240,64 +1242,64 @@ app.frame("/id/:id", async (c) => {
   }
 
   return c.res({
-    title: "Enter the Tavern",
+    title: 'Enter the Tavern',
     image: defaultContainer(
       <div
         style={{
-          alignItems: "center",
-          border: "6px solid #ff3864",
-          display: "flex",
-          height: "80%",
-          width: "90%",
-          padding: "0 60px",
-          gap: "60px",
+          alignItems: 'center',
+          border: '6px solid #ff3864',
+          display: 'flex',
+          height: '80%',
+          width: '90%',
+          padding: '0 60px',
+          gap: '60px',
         }}
       >
         <div
           style={{
-            alignItems: "center",
-            alignSelf: "center",
-            justifyContent: "center",
-            display: "flex",
-            flexDirection: "column",
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            display: 'flex',
+            flexDirection: 'column',
             backgroundImage: `url(${uriToHttp(imageUri)[0]})`,
-            backgroundSize: "contain",
-            backgroundRepeat: "no-repeat",
-            height: "250px",
-            width: "220px",
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            height: '250px',
+            width: '220px',
           }}
         />
         <div
           style={{
-            alignItems: "flex-start",
-            color: "white",
+            alignItems: 'flex-start',
+            color: 'white',
             fontSize: 48,
-            fontStyle: "normal",
-            letterSpacing: "-0.025em",
+            fontStyle: 'normal',
+            letterSpacing: '-0.025em',
             lineHeight: 1.4,
-            whiteSpace: "pre-wrap",
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
+            whiteSpace: 'pre-wrap',
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
           }}
         >
-          <div style={{ display: "flex", textAlign: "left" }}>{name}</div>
+          <div style={{ display: 'flex', textAlign: 'left' }}>{name}</div>
           <div
             style={{
-              display: "flex",
-              textAlign: "left",
+              display: 'flex',
+              textAlign: 'left',
               fontSize: 32,
             }}
           >
             Class: {classType}
           </div>
-          <div style={{ display: "flex" }}>---</div>
+          <div style={{ display: 'flex' }}>---</div>
           <div
             style={{
-              display: "flex",
-              textAlign: "left",
+              display: 'flex',
+              textAlign: 'left',
               fontSize: 32,
-              width: "700px",
+              width: '700px',
             }}
           >
             "{description}"
@@ -1316,27 +1318,27 @@ app.frame("/id/:id", async (c) => {
   });
 });
 
-const IPFS_GATEWAYS = ["https://cloudflare-ipfs.com"];
+const IPFS_GATEWAYS = ['https://cloudflare-ipfs.com'];
 
 export const uriToHttp = (uri: string): string[] => {
   try {
-    const protocol = uri.split(":")[0].toLowerCase();
+    const protocol = uri.split(':')[0].toLowerCase();
     switch (protocol) {
-      case "data":
+      case 'data':
         return [uri];
-      case "https":
+      case 'https':
         return [uri];
-      case "http":
-        return ["https" + uri.substring(4), uri];
-      case "ipfs": {
+      case 'http':
+        return ['https' + uri.substring(4), uri];
+      case 'ipfs': {
         const hash = uri.match(/^ipfs:(\/\/)?(.*)$/i)?.[2];
-        return IPFS_GATEWAYS.map((g) => `${g}/ipfs/${hash}`);
+        return IPFS_GATEWAYS.map(g => `${g}/ipfs/${hash}`);
       }
-      case "ipns": {
+      case 'ipns': {
         const name = uri.match(/^ipns:(\/\/)?(.*)$/i)?.[2];
-        return IPFS_GATEWAYS.map((g) => `${g}/ipns/${name}`);
+        return IPFS_GATEWAYS.map(g => `${g}/ipns/${name}`);
       }
-      case "ar": {
+      case 'ar': {
         const tx = uri.match(/^ar:(\/\/)?(.*)$/i)?.[2];
         return [`https://arweave.net/${tx}`];
       }
@@ -1345,325 +1347,325 @@ export const uriToHttp = (uri: string): string[] => {
     }
   } catch (e) {
     console.error(e);
-    return ["", ""];
+    return ['', ''];
   }
 };
 
 const CLASSES_IMG_URI = {
-  "Tavern Keeper":
-    "ipfs://bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti",
-  Wizard: "ipfs://bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy",
-  Cleric: "ipfs://bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha",
-  Archer: "ipfs://bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724",
+  'Tavern Keeper':
+    'ipfs://bafkreihqgxfn5etcfwcvtrporyqfz4i7y7jlb7ahqjyrdlq73uyqmynnti',
+  Wizard: 'ipfs://bafkreibvlpdp3uficvbx3kvk7rnqwbacxlzuzqqpf4lkcfuiamcfgsytmy',
+  Cleric: 'ipfs://bafkreibwrkh3izmbogqasi25amcs77b3dhdjlo2egmx7gagnhungn6dlha',
+  Archer: 'ipfs://bafkreifxdmvseaossg3fjcyiyccy42brvexfew5ip7krzyyurmdlndh724',
 };
 
 const CHARACTER_NAMES = {
-  "Tavern Keeper": [
-    "Gideon Tavernkeep",
-    "Hilda Stoutbrew",
-    "Luther Blackbarrel",
-    "Evangeline Meadwright",
-    "Thaddeus Caskkeeper",
-    "Gertrude Frothybrew",
-    "Reginald Ironflask",
-    "Matilda Barrelblossom",
-    "Barnaby Alequaffer",
-    "Prudence Winesoak",
-    "Horace Tankardtoss",
-    "Clementine Hopsworthy",
-    "Algernon Kegmaster",
-    "Esmeralda Stoutstirrer",
-    "Ignatius Barleyblend",
-    "Ophelia Brewbinder",
-    "Rupert Meadswiller",
-    "Winifred Steinshaper",
-    "Montgomery Hoptinker",
-    "Constance Sudslinger",
-    "Thelonious Beervat",
-    "Eloise Quenchwell",
-    "Ferdinand Lagerlash",
-    "Imogene Cidercrafter",
-    "Winston Brewster",
-    "Agatha Fermentress",
-    "Roderick Brewbottom",
-    "Millicent Aletapper",
-    "Bartholomew Caskbreaker",
-    "Dorothea Winepourer",
-    "Percival Stoutstrider",
-    "Adelaide Meadmaster",
-    "Reginald Barrelmender",
-    "Marigold Alebinder",
-    "Archibald Caskcarver",
-    "Cecilia Frothwhisper",
-    "Bartholomew Fermenter",
-    "Agnes Hoptapper",
-    "Fitzgerald Sudssmith",
-    "Philomena Mugslinger",
-    "Humphrey Winemaster",
-    "Euphemia Steinshaper",
-    "Reginald Hopsbrewer",
-    "Tabitha Aletender",
-    "Cornelius Stoutbelly",
-    "Wilhelmina Vinebinder",
-    "Percival Barleyfroth",
-    "Ophelia Meadmender",
-    "Barnaby Kegmender",
-    "Matilda Brewstirrer",
-    "Archibald Caskmaker",
-    "Edith Mugslinger",
-    "Rupert Steinmender",
-    "Winifred Hopwhisper",
-    "Ferdinand Sudsbrewer",
-    "Gertrude Barrelshaper",
-    "Thelonious Fermenter",
-    "Esmeralda Alebinder",
-    "Montgomery Meadcarver",
-    "Agatha Barrelmender",
-    "Reginald Hoptapper",
-    "Bartholomew Sudswhisper",
-    "Philomena Brewmaster",
-    "Percival Stoutmender",
-    "Adelaide Hopsbrewer",
-    "Cornelius Brewtapper",
-    "Wilhelmina Fermentress",
-    "Humphrey Caskmender",
-    "Euphemia Alewhisper",
+  'Tavern Keeper': [
+    'Gideon Tavernkeep',
+    'Hilda Stoutbrew',
+    'Luther Blackbarrel',
+    'Evangeline Meadwright',
+    'Thaddeus Caskkeeper',
+    'Gertrude Frothybrew',
+    'Reginald Ironflask',
+    'Matilda Barrelblossom',
+    'Barnaby Alequaffer',
+    'Prudence Winesoak',
+    'Horace Tankardtoss',
+    'Clementine Hopsworthy',
+    'Algernon Kegmaster',
+    'Esmeralda Stoutstirrer',
+    'Ignatius Barleyblend',
+    'Ophelia Brewbinder',
+    'Rupert Meadswiller',
+    'Winifred Steinshaper',
+    'Montgomery Hoptinker',
+    'Constance Sudslinger',
+    'Thelonious Beervat',
+    'Eloise Quenchwell',
+    'Ferdinand Lagerlash',
+    'Imogene Cidercrafter',
+    'Winston Brewster',
+    'Agatha Fermentress',
+    'Roderick Brewbottom',
+    'Millicent Aletapper',
+    'Bartholomew Caskbreaker',
+    'Dorothea Winepourer',
+    'Percival Stoutstrider',
+    'Adelaide Meadmaster',
+    'Reginald Barrelmender',
+    'Marigold Alebinder',
+    'Archibald Caskcarver',
+    'Cecilia Frothwhisper',
+    'Bartholomew Fermenter',
+    'Agnes Hoptapper',
+    'Fitzgerald Sudssmith',
+    'Philomena Mugslinger',
+    'Humphrey Winemaster',
+    'Euphemia Steinshaper',
+    'Reginald Hopsbrewer',
+    'Tabitha Aletender',
+    'Cornelius Stoutbelly',
+    'Wilhelmina Vinebinder',
+    'Percival Barleyfroth',
+    'Ophelia Meadmender',
+    'Barnaby Kegmender',
+    'Matilda Brewstirrer',
+    'Archibald Caskmaker',
+    'Edith Mugslinger',
+    'Rupert Steinmender',
+    'Winifred Hopwhisper',
+    'Ferdinand Sudsbrewer',
+    'Gertrude Barrelshaper',
+    'Thelonious Fermenter',
+    'Esmeralda Alebinder',
+    'Montgomery Meadcarver',
+    'Agatha Barrelmender',
+    'Reginald Hoptapper',
+    'Bartholomew Sudswhisper',
+    'Philomena Brewmaster',
+    'Percival Stoutmender',
+    'Adelaide Hopsbrewer',
+    'Cornelius Brewtapper',
+    'Wilhelmina Fermentress',
+    'Humphrey Caskmender',
+    'Euphemia Alewhisper',
   ],
 
   Archer: [
-    "Faelan Archeron",
-    "Aria Swiftshot",
-    "Silas Emberarrow",
-    "Sylvan Windwhisper",
-    "Artemis Swiftshadow",
-    "Eldric Shadowstep",
-    "Lyra Nightshade",
-    "Thorn Swiftthorn",
-    "Sylas Silverwind",
-    "Raven Shadowswift",
-    "Caelum Hawkstrike",
-    "Elara Arrowheart",
-    "Alden Longshot",
-    "Rowan Raincaller",
-    "Sariel Starfall",
-    "Thalia Sunbow",
-    "Garrett Eagleeye",
-    "Niamh Wildwood",
-    "Dorian Moonshot",
-    "Iliad Forestwalker",
-    "Luna Shadowarrow",
-    "Tristan Sunseeker",
-    "Astrid Swiftsight",
-    "Fenrir Firebrand",
-    "Eris Windwalker",
-    "Thorn Oakenshot",
-    "Nova Stormwing",
-    "Cassian Starfury",
-    "Lysander Icearrow",
-    "Aurora Dawnstrike",
-    "Kieran Nightstalker",
-    "Briar Hawkeye",
-    "Elena Sunshadow",
-    "Orion Frostfire",
-    "Aurora Dawnarrow",
-    "Darius Blackfeather",
-    "Cassia Moonwhisper",
-    "Riven Silentarrow",
-    "Elowen Wildheart",
-    "Asher Shadowblade",
-    "Fiora Frostwind",
-    "Elden Swiftblade",
-    "Aurelia Starshot",
-    "Thorne Swiftstrike",
-    "Lyric Moonshade",
-    "Oriana Stormarrow",
-    "Dante Emberblade",
-    "Evangeline Frostfall",
-    "Felix Swiftwind",
-    "Celestia Starfrost",
-    "Kaelen Sunflare",
-    "Seraphina Nightfire",
-    "Aldric Shadowthorn",
-    "Soren Swiftarrow",
-    "Nyx Shadowwhisper",
-    "Rosalind Rainwhisper",
-    "Alden Sunshard",
-    "Thalia Swiftstrike",
-    "Galen Stormfury",
-    "Elara Emberstorm",
-    "Phoenix Firestride",
-    "Aria Moonshard",
-    "Kaelan Stormstrike",
-    "Rhiannon Skydancer",
-    "Evanthe Frostbloom",
-    "Cyrus Windchaser",
-    "Vesper Nightblade",
-    "Sasha Raincaller",
+    'Faelan Archeron',
+    'Aria Swiftshot',
+    'Silas Emberarrow',
+    'Sylvan Windwhisper',
+    'Artemis Swiftshadow',
+    'Eldric Shadowstep',
+    'Lyra Nightshade',
+    'Thorn Swiftthorn',
+    'Sylas Silverwind',
+    'Raven Shadowswift',
+    'Caelum Hawkstrike',
+    'Elara Arrowheart',
+    'Alden Longshot',
+    'Rowan Raincaller',
+    'Sariel Starfall',
+    'Thalia Sunbow',
+    'Garrett Eagleeye',
+    'Niamh Wildwood',
+    'Dorian Moonshot',
+    'Iliad Forestwalker',
+    'Luna Shadowarrow',
+    'Tristan Sunseeker',
+    'Astrid Swiftsight',
+    'Fenrir Firebrand',
+    'Eris Windwalker',
+    'Thorn Oakenshot',
+    'Nova Stormwing',
+    'Cassian Starfury',
+    'Lysander Icearrow',
+    'Aurora Dawnstrike',
+    'Kieran Nightstalker',
+    'Briar Hawkeye',
+    'Elena Sunshadow',
+    'Orion Frostfire',
+    'Aurora Dawnarrow',
+    'Darius Blackfeather',
+    'Cassia Moonwhisper',
+    'Riven Silentarrow',
+    'Elowen Wildheart',
+    'Asher Shadowblade',
+    'Fiora Frostwind',
+    'Elden Swiftblade',
+    'Aurelia Starshot',
+    'Thorne Swiftstrike',
+    'Lyric Moonshade',
+    'Oriana Stormarrow',
+    'Dante Emberblade',
+    'Evangeline Frostfall',
+    'Felix Swiftwind',
+    'Celestia Starfrost',
+    'Kaelen Sunflare',
+    'Seraphina Nightfire',
+    'Aldric Shadowthorn',
+    'Soren Swiftarrow',
+    'Nyx Shadowwhisper',
+    'Rosalind Rainwhisper',
+    'Alden Sunshard',
+    'Thalia Swiftstrike',
+    'Galen Stormfury',
+    'Elara Emberstorm',
+    'Phoenix Firestride',
+    'Aria Moonshard',
+    'Kaelan Stormstrike',
+    'Rhiannon Skydancer',
+    'Evanthe Frostbloom',
+    'Cyrus Windchaser',
+    'Vesper Nightblade',
+    'Sasha Raincaller',
   ],
   Cleric: [
-    "Eadric Lightbringer",
-    "Aurelia Divineheart",
-    "Cedric Soulforge",
-    "Elara Dawnblessed",
-    "Thalia Spiritcaller",
-    "Finnian Holyhammer",
-    "Seraphina Faithkeeper",
-    "Gwendolyn Sunseeker",
-    "Aldric Healinghand",
-    "Lysander Celestialbloom",
-    "Cassandra Moonwhisper",
-    "Benedict Sacredflame",
-    "Rosalind Dawnshaper",
-    "Evangeline Divinegrace",
-    "Dorian Lightbringer",
-    "Isolde Soulkeeper",
-    "Valeria Radiancecaller",
-    "Caius Holyheart",
-    "Ophelia Divinebearer",
-    "Galahad Sanctifiedsword",
-    "Elena Spiritforge",
-    "Aurora Divinehope",
-    "Hector Lightbringer",
-    "Rowan Celestialflame",
-    "Theodora Sunshaper",
-    "Faelan Dawnblessed",
-    "Aurelius Faithkeeper",
-    "Thorn Holyblade",
-    "Elowen Mooncaller",
-    "Alden Sunseeker",
-    "Serenity Divinegrace",
-    "Cassius Lightbearer",
-    "Elysia Spiritbinder",
-    "Luther Holyhammer",
-    "Evangeline Moonwhisper",
-    "Cyrus Lightbringer",
-    "Isolde Celestialkeeper",
-    "Thaddeus Radiancecaller",
-    "Gwendolyn Holyheart",
-    "Adelaide Divinebearer",
-    "Benedict Sanctifiedsoul",
-    "Rosalind Dawnkeeper",
-    "Eadric Spiritforge",
-    "Aurelia Divinehope",
-    "Cedric Lightbringer",
-    "Elara Soulkeeper",
-    "Thalia Holyhand",
-    "Finnian Celestialflame",
-    "Seraphina Sunshaper",
-    "Gwendolyn Divineblessed",
-    "Aldric Faithkeeper",
-    "Lysander Radiancecaller",
-    "Cassandra Divinegrace",
-    "Benedict Moonwhisper",
-    "Rosalind Lightbringer",
-    "Evangeline Celestialkeeper",
-    "Dorian Sunbearer",
-    "Isolde Holyblade",
-    "Valeria Mooncaller",
-    "Caius Divineflame",
-    "Ophelia Sunseeker",
-    "Galahad Lightbringer",
-    "Elena Celestialbinder",
-    "Aurora Soulforge",
-    "Hector Dawnkeeper",
-    "Rowan Radiancecaller",
-    "Theodora Lightbringer",
-    "Faelan Divinehope",
-    "Aurelius Spiritcaller",
-    "Thorn Holyflame",
-    "Elowen Celestialshaper",
-    "Alden Divineheart",
-    "Serenity Sanctifiedsoul",
-    "Cassius Holyblade",
-    "Elysia Radiancebearer",
-    "Luther Moonwhisper",
-    "Evangeline Holyhand",
+    'Eadric Lightbringer',
+    'Aurelia Divineheart',
+    'Cedric Soulforge',
+    'Elara Dawnblessed',
+    'Thalia Spiritcaller',
+    'Finnian Holyhammer',
+    'Seraphina Faithkeeper',
+    'Gwendolyn Sunseeker',
+    'Aldric Healinghand',
+    'Lysander Celestialbloom',
+    'Cassandra Moonwhisper',
+    'Benedict Sacredflame',
+    'Rosalind Dawnshaper',
+    'Evangeline Divinegrace',
+    'Dorian Lightbringer',
+    'Isolde Soulkeeper',
+    'Valeria Radiancecaller',
+    'Caius Holyheart',
+    'Ophelia Divinebearer',
+    'Galahad Sanctifiedsword',
+    'Elena Spiritforge',
+    'Aurora Divinehope',
+    'Hector Lightbringer',
+    'Rowan Celestialflame',
+    'Theodora Sunshaper',
+    'Faelan Dawnblessed',
+    'Aurelius Faithkeeper',
+    'Thorn Holyblade',
+    'Elowen Mooncaller',
+    'Alden Sunseeker',
+    'Serenity Divinegrace',
+    'Cassius Lightbearer',
+    'Elysia Spiritbinder',
+    'Luther Holyhammer',
+    'Evangeline Moonwhisper',
+    'Cyrus Lightbringer',
+    'Isolde Celestialkeeper',
+    'Thaddeus Radiancecaller',
+    'Gwendolyn Holyheart',
+    'Adelaide Divinebearer',
+    'Benedict Sanctifiedsoul',
+    'Rosalind Dawnkeeper',
+    'Eadric Spiritforge',
+    'Aurelia Divinehope',
+    'Cedric Lightbringer',
+    'Elara Soulkeeper',
+    'Thalia Holyhand',
+    'Finnian Celestialflame',
+    'Seraphina Sunshaper',
+    'Gwendolyn Divineblessed',
+    'Aldric Faithkeeper',
+    'Lysander Radiancecaller',
+    'Cassandra Divinegrace',
+    'Benedict Moonwhisper',
+    'Rosalind Lightbringer',
+    'Evangeline Celestialkeeper',
+    'Dorian Sunbearer',
+    'Isolde Holyblade',
+    'Valeria Mooncaller',
+    'Caius Divineflame',
+    'Ophelia Sunseeker',
+    'Galahad Lightbringer',
+    'Elena Celestialbinder',
+    'Aurora Soulforge',
+    'Hector Dawnkeeper',
+    'Rowan Radiancecaller',
+    'Theodora Lightbringer',
+    'Faelan Divinehope',
+    'Aurelius Spiritcaller',
+    'Thorn Holyflame',
+    'Elowen Celestialshaper',
+    'Alden Divineheart',
+    'Serenity Sanctifiedsoul',
+    'Cassius Holyblade',
+    'Elysia Radiancebearer',
+    'Luther Moonwhisper',
+    'Evangeline Holyhand',
   ],
   Wizard: [
-    "Seraphina Shadowdancer",
-    "Meridia Starwhisper",
-    "Elowyn Frostweaver",
-    "Miranda Moonshroud",
-    "Liora Stormshaper",
-    "Icarus Fireforge",
-    "Selene Frostbinder",
-    "Isabella Moonwhisper",
-    "Frost Whisperer Ilaria",
-    "Sorin Embercaster",
-    "Thaddeus Spellweaver",
-    "Aurelia Arcanemistress",
-    "Cedric Shadowcaster",
-    "Elara Frostweaver",
-    "Eadric Flamecaller",
-    "Valeria Nightwhisper",
-    "Gwendolyn Stormweaver",
-    "Aldric Frostfire",
-    "Cassandra Moonshaper",
-    "Caius Thunderweaver",
-    "Ophelia Starcaller",
-    "Galahad Spellbinder",
-    "Elena Frostwhisper",
-    "Aurora Shadowcaster",
-    "Hector Arcanemage",
-    "Rowan Stormbinder",
-    "Theodora Frostshaper",
-    "Faelan Moonweaver",
-    "Aurelius Firecaller",
-    "Thorn Nightwhisper",
-    "Elowen Stormweaver",
-    "Alden Frostflame",
-    "Serenity Spellmistress",
-    "Cassius Shadowweaver",
-    "Elysia Frostcaller",
-    "Luther Starshaper",
-    "Evangeline Thundercaster",
-    "Dorian Arcanist",
-    "Isolde Spellbinder",
-    "Valeria Moonweaver",
-    "Caius Frostcaller",
-    "Ophelia Shadowweaver",
-    "Galahad Arcanemist",
-    "Elena Moonshaper",
-    "Aurora Frostwhisper",
-    "Hector Shadowbinder",
-    "Rowan Arcanemage",
-    "Theodora Stormcaller",
-    "Faelan Spellweaver",
-    "Aurelius Nightshaper",
-    "Thorn Frostweaver",
-    "Elowen Shadowmistress",
-    "Alden Mooncaller",
-    "Serenity Thunderweaver",
-    "Cassius Starcaster",
-    "Elysia Frostwhisperer",
-    "Luther Arcanemage",
-    "Evangeline Spellshaper",
-    "Dorian Shadowcaller",
-    "Isolde Frostweaver",
-    "Valeria Moonwhisperer",
-    "Caius Starbinder",
-    "Ophelia Frostmistress",
-    "Galahad Thunderweaver",
-    "Elena Stormshaper",
-    "Aurora Frostcaster",
-    "Hector Spellbinder",
-    "Rowan Shadowmage",
-    "Theodora Frostwhisperer",
-    "Faelan Moonshaper",
-    "Aurelius Spellmistress",
-    "Thorn Frostweaver",
-    "Elowen Starshaper",
-    "Alden Arcanist",
-    "Serenity Shadowcaller",
-    "Cassius Frostweaver",
-    "Elysia Mooncaster",
-    "Luther Stormbinder",
-    "Evangeline Frostweaver",
+    'Seraphina Shadowdancer',
+    'Meridia Starwhisper',
+    'Elowyn Frostweaver',
+    'Miranda Moonshroud',
+    'Liora Stormshaper',
+    'Icarus Fireforge',
+    'Selene Frostbinder',
+    'Isabella Moonwhisper',
+    'Frost Whisperer Ilaria',
+    'Sorin Embercaster',
+    'Thaddeus Spellweaver',
+    'Aurelia Arcanemistress',
+    'Cedric Shadowcaster',
+    'Elara Frostweaver',
+    'Eadric Flamecaller',
+    'Valeria Nightwhisper',
+    'Gwendolyn Stormweaver',
+    'Aldric Frostfire',
+    'Cassandra Moonshaper',
+    'Caius Thunderweaver',
+    'Ophelia Starcaller',
+    'Galahad Spellbinder',
+    'Elena Frostwhisper',
+    'Aurora Shadowcaster',
+    'Hector Arcanemage',
+    'Rowan Stormbinder',
+    'Theodora Frostshaper',
+    'Faelan Moonweaver',
+    'Aurelius Firecaller',
+    'Thorn Nightwhisper',
+    'Elowen Stormweaver',
+    'Alden Frostflame',
+    'Serenity Spellmistress',
+    'Cassius Shadowweaver',
+    'Elysia Frostcaller',
+    'Luther Starshaper',
+    'Evangeline Thundercaster',
+    'Dorian Arcanist',
+    'Isolde Spellbinder',
+    'Valeria Moonweaver',
+    'Caius Frostcaller',
+    'Ophelia Shadowweaver',
+    'Galahad Arcanemist',
+    'Elena Moonshaper',
+    'Aurora Frostwhisper',
+    'Hector Shadowbinder',
+    'Rowan Arcanemage',
+    'Theodora Stormcaller',
+    'Faelan Spellweaver',
+    'Aurelius Nightshaper',
+    'Thorn Frostweaver',
+    'Elowen Shadowmistress',
+    'Alden Mooncaller',
+    'Serenity Thunderweaver',
+    'Cassius Starcaster',
+    'Elysia Frostwhisperer',
+    'Luther Arcanemage',
+    'Evangeline Spellshaper',
+    'Dorian Shadowcaller',
+    'Isolde Frostweaver',
+    'Valeria Moonwhisperer',
+    'Caius Starbinder',
+    'Ophelia Frostmistress',
+    'Galahad Thunderweaver',
+    'Elena Stormshaper',
+    'Aurora Frostcaster',
+    'Hector Spellbinder',
+    'Rowan Shadowmage',
+    'Theodora Frostwhisperer',
+    'Faelan Moonshaper',
+    'Aurelius Spellmistress',
+    'Thorn Frostweaver',
+    'Elowen Starshaper',
+    'Alden Arcanist',
+    'Serenity Shadowcaller',
+    'Cassius Frostweaver',
+    'Elysia Mooncaster',
+    'Luther Stormbinder',
+    'Evangeline Frostweaver',
   ],
 };
 
 const CLASS_DESCRIPTIONS = {
-  "Tavern Keeper": `Welcome to the Raid Guild tavern. If you're looking for adventure and battle, you've come to the right place. I can help you join a Raid Party.`,
+  'Tavern Keeper': `Welcome to the Raid Guild tavern. If you're looking for adventure and battle, you've come to the right place. I can help you join a Raid Party.`,
   Cleric: `I hear you're ready to join a Raid Party. Excellent! I am forming one to battle Moloch and we could use your skills.`,
   Archer: `I raise my bow and see my target, Moloch! After I weaken the demon with design, the Raid Party then attacks with an advantage.`,
   Wizard: `Smart Contracts are my wizardry! When I join a Raid Party, I attack Moloch with onchain powers and level up all my fellow Raiders.`,
@@ -1671,3 +1673,5 @@ const CLASS_DESCRIPTIONS = {
 
 export const GET = handle(app);
 export const POST = handle(app);
+
+devtools(app, { serveStatic });
